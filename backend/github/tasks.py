@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timezone
 
-from celery import shared_task
+from background_task import background
 from django.contrib.auth.models import User
 
 from .models import Repository, ContributionMetrics
@@ -10,8 +10,8 @@ from .github_client import GitHubClient
 logger = logging.getLogger(__name__)
 
 
-@shared_task(bind=True, max_retries=3, default_retry_delay=60)
-def fetch_repositories(self, user_id):
+@background(schedule=0)
+def fetch_repositories(user_id):
     """Fetch all repositories for a user from GitHub and upsert into DB."""
     try:
         user = User.objects.get(id=user_id)
@@ -50,40 +50,18 @@ def fetch_repositories(self, user_id):
             )
 
         logger.info(f"Fetched {len(repos)} repos for {user.username}")
-        return {"user_id": user_id, "repo_count": len(repos)}
+        
+        # Trigger next step: fetch contribution metrics
+        from .tasks import fetch_contribution_metrics
+        fetch_contribution_metrics(user_id)
 
     except Exception as exc:
         logger.error(f"Error fetching repos for user {user_id}: {exc}")
-        self.retry(exc=exc)
+        raise exc
 
 
-@shared_task(bind=True, max_retries=2, default_retry_delay=30)
-def analyze_repository(self, repo_id):
-    """Analyze a single repository for CI, tests, Docker, lint, and type configs."""
-    try:
-        repo = Repository.objects.select_related("user__profile").get(id=repo_id)
-        client = GitHubClient(repo.user.profile.get_github_token())
-
-        features = client.detect_repo_features(repo.full_name)
-
-        repo.has_ci = features["has_ci"]
-        repo.has_tests = features["has_tests"]
-        repo.has_docker = features["has_docker"]
-        repo.has_lint = features["has_lint"]
-        repo.has_types = features["has_types"]
-        repo.analyzed_at = datetime.now(timezone.utc)
-        repo.save()
-
-        logger.info(f"Analyzed repo {repo.full_name}: {features}")
-        return {"repo_id": repo_id, "features": features}
-
-    except Exception as exc:
-        logger.error(f"Error analyzing repo {repo_id}: {exc}")
-        self.retry(exc=exc)
-
-
-@shared_task(bind=True, max_retries=2, default_retry_delay=60)
-def fetch_contribution_metrics(self, user_id):
+@background(schedule=0)
+def fetch_contribution_metrics(user_id):
     """Aggregate contribution metrics from GitHub events API."""
     try:
         user = User.objects.get(id=user_id)
@@ -158,15 +136,64 @@ def fetch_contribution_metrics(self, user_id):
         )
 
         logger.info(f"Fetched contribution metrics for {user.username}")
-        return {"user_id": user_id, "commits": commits, "prs": pr_opened}
+        
+        # Trigger next step: analyze all repos
+        from .tasks import analyze_all_repos_task
+        analyze_all_repos_task(user_id)
 
     except Exception as exc:
         logger.error(f"Error fetching metrics for user {user_id}: {exc}")
-        self.retry(exc=exc)
+        raise exc
 
 
-@shared_task(bind=True, max_retries=2, default_retry_delay=60)
-def deep_audit_repository(self, repo_id):
+@background(schedule=0)
+def analyze_all_repos_task(user_id):
+    """Analyze all repositories for a user synchronously in the background."""
+    try:
+        repos = Repository.objects.filter(user_id=user_id)
+        for repo in repos:
+            # We can run the analysis logic directly here to ensure it finishes before scoring
+            _perform_repo_analysis(repo.id)
+        
+        # Trigger next step: scoring
+        from scoring.tasks import calculate_user_score
+        calculate_user_score(user_id)
+        
+    except Exception as exc:
+        logger.error(f"Error in analyze_all_repos_task for user {user_id}: {exc}")
+        raise exc
+
+
+def _perform_repo_analysis(repo_id):
+    """Internal helper to analyze a repo (replaces the shared_task version for synchronous call)."""
+    try:
+        repo = Repository.objects.select_related("user__profile").get(id=repo_id)
+        client = GitHubClient(repo.user.profile.get_github_token())
+
+        features = client.detect_repo_features(repo.full_name)
+
+        repo.has_ci = features["has_ci"]
+        repo.has_tests = features["has_tests"]
+        repo.has_docker = features["has_docker"]
+        repo.has_lint = features["has_lint"]
+        repo.has_types = features["has_types"]
+        repo.analyzed_at = datetime.now(timezone.utc)
+        repo.save()
+
+        logger.info(f"Analyzed repo {repo.full_name}")
+
+    except Exception as exc:
+        logger.error(f"Error analyzing repo {repo_id}: {exc}")
+
+
+@background(schedule=0)
+def analyze_repository(repo_id):
+    """Keep this for direct calls if needed, but it uses the helper now."""
+    _perform_repo_analysis(repo_id)
+
+
+@background(schedule=0)
+def deep_audit_repository(repo_id):
     """Perform a deep AI audit of a specific repository."""
     from .models import Repository, RepositoryAudit
     from analytics.auditor import perform_deep_audit
@@ -188,10 +215,7 @@ def deep_audit_repository(self, repo_id):
                 },
             )
             logger.info(f"Completed deep audit for {repo.full_name}")
-            return {"repo_id": repo_id, "status": "complete"}
-
-        return {"repo_id": repo_id, "status": "failed"}
 
     except Exception as exc:
         logger.error(f"Error auditing repo {repo_id}: {exc}")
-        self.retry(exc=exc)
+        raise exc

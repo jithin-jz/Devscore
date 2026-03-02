@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timezone
 
-from celery import shared_task
+from background_task import background
 from django.contrib.auth.models import User
 
 from github.models import Repository, ContributionMetrics
@@ -20,8 +20,8 @@ from users.utils import broadcast_leaderboard
 logger = logging.getLogger(__name__)
 
 
-@shared_task(bind=True, max_retries=2, default_retry_delay=30)
-def calculate_score(self, user_id):
+@background(schedule=0)
+def calculate_user_score(user_id):
     """Calculate all category scores and final DevScore for a user."""
     try:
         user = User.objects.get(id=user_id)
@@ -77,7 +77,11 @@ def calculate_score(self, user_id):
             logger.error(f"Failed to broadcast leaderboard: {e}")
 
         logger.info(f"Calculated DevScore for {user.username}: {final_score} ({profile.tier})")
-        return {"user_id": user_id, "score": final_score, "tier": profile.tier}
+        
+        # Trigger recommendations engine
+        from recs.tasks import generate_recs, generate_tech_recs_task
+        generate_recs(user_id)
+        generate_tech_recs_task(user_id)
 
     except Exception as exc:
         logger.error(f"Error calculating score for user {user_id}: {exc}")
@@ -87,4 +91,4 @@ def calculate_score(self, user_id):
             user.profile.save(update_fields=["analysis_status"])
         except Exception:
             pass
-        self.retry(exc=exc)
+        raise exc

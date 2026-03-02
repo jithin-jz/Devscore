@@ -42,31 +42,17 @@ services:
     volumes:
       - ./backend:/app
 
-  celery_worker:
+  background_worker:
     build: ./backend
-    command: celery -A config worker -l info --concurrency=2
+    command: python manage.py process_tasks
     env_file:
       - .env
     depends_on:
       db:
-        condition: service_healthy
-      redis:
         condition: service_healthy
     volumes:
       - ./backend:/app
 
-  celery_beat:
-    build: ./backend
-    command: celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - ./backend:/app
 
 volumes:
   postgres_data:

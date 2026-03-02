@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
-    "django_celery_beat",
+    "background_task",
     # Local apps
     "users",
     "github",
@@ -125,14 +125,6 @@ CORS_ALLOWED_ORIGINS = [
     config("FRONTEND_URL", default="http://localhost:5173"),
 ]
 CORS_ALLOW_CREDENTIALS = True
-
-# Celery
-CELERY_BROKER_URL = config("REDIS_URL", default="redis://redis:6379/0")
-CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://redis:6379/0")
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = "UTC"
 
 # GitHub OAuth
 GITHUB_CLIENT_ID = config("GITHUB_CLIENT_ID", default="")

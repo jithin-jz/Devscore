@@ -1,5 +1,5 @@
 import logging
-from celery import shared_task
+from background_task import background
 from django.contrib.auth.models import User
 
 from github.models import Repository
@@ -11,8 +11,8 @@ from .engine import generate_ai_recs, generate_tech_recs
 logger = logging.getLogger(__name__)
 
 
-@shared_task(bind=True, max_retries=2, default_retry_delay=30)
-def generate_recs(self, user_id):
+@background(schedule=0)
+def generate_recs(user_id):
     """Generate improvement recs based on current scores."""
     try:
         user = User.objects.get(id=user_id)
@@ -30,15 +30,14 @@ def generate_recs(self, user_id):
             Recommendation.objects.create(user=user, **rec)
 
         logger.info(f"Generated {len(recs)} recs for {user.username}")
-        return {"user_id": user_id, "count": len(recs)}
 
     except Exception as exc:
         logger.error(f"Error generating recs for user {user_id}: {exc}")
-        self.retry(exc=exc)
+        raise exc
 
 
-@shared_task(bind=True, max_retries=2, default_retry_delay=30)
-def generate_tech_recs_task(self, user_id):
+@background(schedule=0)
+def generate_tech_recs_task(user_id):
     """Generate tech stack recommendations based on current profile and scores."""
     try:
         user = User.objects.get(id=user_id)
@@ -67,8 +66,7 @@ def generate_tech_recs_task(self, user_id):
             created_count += 1
 
         logger.info(f"Generated {created_count} tech recs for {user.username}")
-        return {"user_id": user_id, "count": created_count}
 
     except Exception as exc:
         logger.error(f"Error generating tech recs for user {user_id}: {exc}")
-        self.retry(exc=exc)
+        raise exc
