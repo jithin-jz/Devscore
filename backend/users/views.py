@@ -66,35 +66,44 @@ def github_login(request):
     email = github_user.get("email", "")
     bio = github_user.get("bio", "") or ""
 
-    # Create or update Django user + profile
-    user, created = User.objects.get_or_create(
-        username=github_username,
-        defaults={"email": email or f"{github_username}@github.local"},
-    )
+    try:
+        # Create or update Django user + profile
+        user, created = User.objects.get_or_create(
+            username=github_username,
+            defaults={"email": email or f"{github_username}@github.local"},
+        )
 
-    if not created and email:
-        user.email = email
-        user.save(update_fields=["email"])
+        if not created and email:
+            user.email = email
+            user.save(update_fields=["email"])
 
-    profile, _ = DeveloperProfile.objects.get_or_create(
-        user=user,
-        defaults={"github_username": github_username},
-    )
-    profile.avatar_url = avatar_url
-    profile.bio = bio
-    profile.github_username = github_username
-    profile.set_github_token(access_token)
-    profile.save()
+        profile, _ = DeveloperProfile.objects.get_or_create(
+            user=user,
+            defaults={"github_username": github_username},
+        )
+        profile.avatar_url = avatar_url
+        profile.bio = bio
+        profile.github_username = github_username
+        profile.set_github_token(access_token)
+        profile.save()
 
-    # Generate DRF auth token
-    drf_token, _ = Token.objects.get_or_create(user=user)
+        # Generate DRF auth token
+        drf_token, _ = Token.objects.get_or_create(user=user)
 
-    return Response(
-        {
-            "token": drf_token.key,
-            "user": ProfileSerializer(profile).data,
-        }
-    )
+        return Response(
+            {
+                "token": drf_token.key,
+                "user": ProfileSerializer(profile).data,
+            }
+        )
+    except Exception as e:
+        import traceback
+        error_msg = f"Internal server error: {str(e)}\n{traceback.format_exc()}"
+        print(error_msg)
+        return Response(
+            {"error": error_msg},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
 
 
 @api_view(["GET"])
