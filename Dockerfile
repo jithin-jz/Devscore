@@ -16,6 +16,5 @@ COPY backend/ .
 
 EXPOSE 8000
 
-# This command will be overridden by your Koyeb setting anyway, 
-# but we keep a safe default here.
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Default command
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
