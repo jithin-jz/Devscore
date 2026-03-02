@@ -138,7 +138,7 @@ export default function Dashboard() {
                 <div className="relative text-center animate-premium-fade-in space-y-10">
                     <PlugConnectedIcon ref={plugRef} size={48} color="#3b82f6" className="mx-auto" />
                     <div className="space-y-1">
-                        <h2 className="text-[10px] font-black text-white uppercase tracking-[0.4em] animate-pulse">Setting Things Up</h2>
+                        <h2 className="text-[10px] font-black text-ds-text uppercase tracking-[0.4em] animate-pulse">Setting Things Up</h2>
                         <p className="ds-label opacity-70">Fetching your GitHub repositories and stats...</p>
                     </div>
                 </div>
@@ -293,7 +293,7 @@ export default function Dashboard() {
                                         </div>
                                     </div>
 
-                                    <div className="ds-panel border-white/5 px-0 pb-0 overflow-hidden">
+                                    <div className="ds-panel px-0 pb-0 overflow-hidden">
                                         <header className="px-5 mb-4 border-b border-ds-border pb-3">
                                             <span className="ds-label">Score Details</span>
                                         </header>
@@ -311,12 +311,12 @@ export default function Dashboard() {
                             {/* Roadmap Visual */}
                             <div className="lg:col-span-4 space-y-8">
                                 <div className="ds-panel p-6 md:p-8 space-y-8 md:space-y-12 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5">
-                                        <Award size={100} />
+                                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                                        <Award size={100} className="text-ds-accent" />
                                     </div>
                                     <h3 className="ds-label">Your Engineering Journey</h3>
                                     <div className="space-y-8 md:space-y-10 relative px-2">
-                                        <div className="absolute left-6 top-2 bottom-2 w-px bg-white/10" />
+                                        <div className="absolute left-6 top-2 bottom-2 w-px bg-ds-border/50" />
                                         {[
                                             { tier: 'Principal', status: 'Locked', current: false },
                                             { tier: 'Architect', status: 'Locked', current: false },
@@ -325,11 +325,11 @@ export default function Dashboard() {
                                             { tier: 'Baseline', status: 'Verified', current: user?.tier === 'Baseline' }
                                         ].map((step, i) => (
                                             <div key={i} className={`flex items-center gap-6 relative z-10 ${step.status === 'Locked' ? 'opacity-30' : 'opacity-100'}`}>
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-500 ${step.current ? 'bg-ds-brand border-ds-brand shadow-lg shadow-ds-brand/40' : step.status === 'Verified' ? 'bg-ds-success border-ds-success' : 'bg-black border-white/20'}`}>
-                                                    {step.status === 'Verified' ? <CheckedIcon size={14} color="white" /> : <span className="text-[10px] font-black">{5 - i}</span>}
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-500 ${step.current ? 'bg-ds-brand border-ds-brand shadow-lg shadow-ds-brand/40' : step.status === 'Verified' ? 'bg-ds-success border-ds-success' : 'bg-ds-accent/5 border-ds-border'}`}>
+                                                    {step.status === 'Verified' ? <CheckedIcon size={14} color="white" /> : <span className={`text-[10px] font-black ${step.current ? 'text-white' : 'text-ds-text'}`}>{5 - i}</span>}
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <div className="text-[10px] font-black uppercase tracking-wider text-white">{step.tier}</div>
+                                                    <div className="text-[10px] font-black uppercase tracking-wider text-ds-text">{step.tier}</div>
                                                     <div className={`text-[8px] font-bold uppercase tracking-widest ${step.current ? 'text-ds-brand' : 'text-ds-muted'}`}>{step.status}</div>
                                                 </div>
                                             </div>
@@ -451,8 +451,8 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-4">
                                     <ShieldCheckIcon className="text-ds-danger" size={24} />
                                     <div className="space-y-0.5">
-                                        <h3 className="text-sm font-black">Account Security</h3>
-                                        <span className="ds-label">Danger Zone</span>
+                                        <h3 className="text-sm font-black text-ds-text">Account Security</h3>
+                                        <span className="ds-label text-ds-danger opacity-70">Danger Zone</span>
                                     </div>
                                 </div>
 
@@ -465,7 +465,7 @@ export default function Dashboard() {
                                     {!showConfirmDelete ? (
                                         <button
                                             onClick={() => setShowConfirmDelete(true)}
-                                            className="w-full md:w-auto px-4 py-2 bg-ds-danger/10 text-ds-danger text-[9px] font-black uppercase tracking-widest rounded border border-ds-danger/20 hover:bg-ds-danger hover:text-white transition-all"
+                                            className="w-full md:w-auto px-4 py-2 bg-ds-danger/10 text-ds-danger text-[9px] font-black uppercase tracking-widest rounded border border-ds-danger/20 hover:bg-ds-danger hover:text-white transition-all shadow-sm"
                                         >
                                             Delete Account
                                         </button>
