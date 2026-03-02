@@ -6,7 +6,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("DJANGO_SECRET_KEY", default="dev-insecure-key-change-in-production")
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
-ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = config(
+    "DJANGO_ALLOWED_HOSTS", 
+    default="localhost,127.0.0.1,wee-keriann-jithins-99cd75e0.koyeb.app"
+).split(",")
 
 INSTALLED_APPS = [
     "daphne",
@@ -163,16 +166,13 @@ REST_FRAMEWORK = {
 }
 
 # CORS
-CORS_ALLOWED_ORIGINS = config(
-    "CORS_ALLOWED_ORIGINS", 
-    default="http://localhost:5173,http://127.0.0.1:5173"
-).split(",")
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS", 
-    default="http://localhost:5173,http://127.0.0.1:5173"
+    default="http://localhost:5173,https://devscores.vercel.app,https://devscore.vercel.app"
 ).split(",")
 
 # GitHub OAuth
