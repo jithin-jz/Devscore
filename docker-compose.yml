@@ -44,7 +44,7 @@ services:
 
   background_worker:
     build: ./backend
-    command: python manage.py process_tasks
+    command: sh -c "sleep 10 && python manage.py process_tasks"
     env_file:
       - .env
     depends_on:
@@ -52,7 +52,6 @@ services:
         condition: service_healthy
     volumes:
       - ./backend:/app
-
 
 volumes:
   postgres_data:

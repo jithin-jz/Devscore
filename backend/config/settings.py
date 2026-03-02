@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -74,14 +75,14 @@ CHANNEL_LAYERS = {
 
 # Database
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB", default="devscore"),
-        "USER": config("POSTGRES_USER", default="devscore"),
-        "PASSWORD": config("POSTGRES_PASSWORD", default="devscore_password"),
-        "HOST": config("POSTGRES_HOST", default="db"),
-        "PORT": config("POSTGRES_PORT", default="5432"),
-    }
+    "default": dj_database_url.config(
+        default=config(
+            "DATABASE_URL",
+            default=f"postgres://{config('POSTGRES_USER', default='devscore')}:{config('POSTGRES_PASSWORD', default='devscore_password')}@{config('POSTGRES_HOST', default='db')}:{config('POSTGRES_PORT', default='5432')}/{config('POSTGRES_DB', default='devscore')}",
+        ),
+        conn_max_age=600,
+        ssl_require=True if config("DATABASE_URL", default=None) else False,
+    )
 }
 
 # Password validation

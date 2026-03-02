@@ -3,6 +3,7 @@ djangorestframework>=3.14,<4.0
 django-cors-headers>=4.3,<5.0
 requests>=2.31,<3.0
 django-background-tasks-updated>=1.2.7
+dj-database-url>=2.1.0
 psycopg2-binary>=2.9,<3.0
 cryptography>=41.0,<43.0
 gunicorn>=21.2,<23.0
