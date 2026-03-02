@@ -15,7 +15,7 @@ export default function Landing() {
 
             {/* Hero Section */}
             <main className="relative z-10 pt-16 pb-32">
-                <div className="max-w-[1500px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div className="max-w-[1500px] mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                     <div className="space-y-8 animate-premium-fade-in">
                         <div className="ds-label py-1 opacity-80 text-ds-muted">Engineering Identity Platform</div>
 
@@ -65,14 +65,14 @@ export default function Landing() {
 
             {/* Feature Row */}
             <section className="relative z-10 py-32 border-y border-ds-border">
-                <div className="max-w-[1500px] mx-auto px-8">
+                <div className="max-w-[1500px] mx-auto px-4 md:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-ds-border border border-ds-border overflow-hidden rounded-2xl">
                         {[
                             { title: 'Baseline Scan', desc: 'Vector analysis of repository architecture and code discipline patterns.' },
                             { title: 'Growth Map', desc: 'AI-synthesized improvement trajectories for technical evolution.' },
                             { title: 'Showcase', desc: 'Secure, verifiable identity badges for cross-platform professional transparency.' }
                         ].map((item, i) => (
-                            <div key={i} className="p-10 bg-ds-bg-subtle space-y-4 hover:bg-ds-accent/[0.02] transition-colors">
+                            <div key={i} className="p-6 md:p-10 bg-ds-bg-subtle space-y-4 hover:bg-ds-accent/[0.02] transition-colors">
                                 <h3 className="text-sm font-black uppercase text-ds-text tracking-widest">{item.title}</h3>
                                 <p className="text-[11px] font-medium text-ds-muted leading-relaxed opacity-80">{item.desc}</p>
                             </div>

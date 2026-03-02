@@ -33,3 +33,37 @@ class Recommendation(models.Model):
 
     def __str__(self):
         return f"{self.category}: {self.title}"
+
+
+class TechRecommendation(models.Model):
+    """AI-generated technology learning recommendations for a user."""
+
+    CATEGORY_CHOICES = [
+        ("language", "Language"),
+        ("framework", "Framework"),
+        ("tool", "Tool"),
+        ("cloud", "Cloud"),
+        ("practice", "Practice"),
+    ]
+
+    PRIORITY_CHOICES = [
+        ("high", "High"),
+        ("medium", "Medium"),
+        ("low", "Low"),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tech_recs")
+    technology = models.CharField(max_length=100)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    reason = models.TextField()
+    learning_resources = models.JSONField(default=dict)
+    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default="medium")
+    career_impact = models.TextField(blank=True, default="")
+    is_dismissed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["priority", "-created_at"]
+
+    def __str__(self):
+        return f"{self.technology}: {self.category}"

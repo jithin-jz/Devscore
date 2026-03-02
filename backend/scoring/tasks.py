@@ -15,6 +15,7 @@ from .engine import (
     calculate_oss_impact,
     calculate_dev_score,
 )
+from users.utils import broadcast_leaderboard
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +69,12 @@ def calculate_score(self, user_id):
         profile.last_analyzed = datetime.now(timezone.utc)
         profile.analysis_status = "complete"
         profile.save(update_fields=["dev_score", "tier", "last_analyzed", "analysis_status"])
+
+        # Broadcast the new leaderboard via WebSockets
+        try:
+            broadcast_leaderboard()
+        except Exception as e:
+            logger.error(f"Failed to broadcast leaderboard: {e}")
 
         logger.info(f"Calculated DevScore for {user.username}: {final_score} ({profile.tier})")
         return {"user_id": user_id, "score": final_score, "tier": profile.tier}

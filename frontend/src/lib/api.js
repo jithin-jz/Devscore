@@ -54,6 +54,9 @@ export const auditRepository = (repoId) => api.post(`/api/github/repositories/${
 
 // Recommendations
 export const getRecommendations = () => api.get('/api/recs/');
+export const getTechRecommendations = () => api.get('/api/recs/tech/');
+export const dismissTechRecommendation = (id) => api.post(`/api/recs/tech/dismiss/${id}/`);
+export const regenerateTechRecommendations = () => api.post('/api/recs/tech/regenerate/');
 
 // Admin
 export const adminLogin = (username, password) => api.post('/api/admin/login/', { username, password });

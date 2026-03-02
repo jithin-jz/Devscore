@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from github.tasks import fetch_repositories, fetch_contribution_metrics, analyze_repository
 from scoring.tasks import calculate_score
-from recs.tasks import generate_recs
+from recs.tasks import generate_recs, generate_tech_recs_task
 from github.models import Repository
 
 
@@ -16,7 +16,7 @@ from github.models import Repository
 def trigger_analysis(request):
     """
     Trigger the full analysis pipeline for the authenticated user.
-    Pipeline: fetch repos → analyze each repo → fetch metrics → calculate score → generate recs
+    Pipeline: fetch repos → analyze each repo → fetch metrics → calculate score → generate recs → generate tech recs
     """
     profile = request.user.profile
 
@@ -29,13 +29,14 @@ def trigger_analysis(request):
     profile.analysis_status = "pending"
     profile.save(update_fields=["analysis_status"])
 
-    # Chain: fetch repos → then fan out to analyze each, then score + recs
+    # Chain: fetch repos → then fan out to analyze each, then score + recs + tech recs
     chain(
         fetch_repositories.s(request.user.id),
         fetch_contribution_metrics.si(request.user.id),
         _analyze_all_repos.si(request.user.id),
         calculate_score.si(request.user.id),
         generate_recs.si(request.user.id),
+        generate_tech_recs_task.si(request.user.id),
     ).apply_async()
 
     return Response({"status": "Analysis pipeline started."})

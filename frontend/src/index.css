@@ -24,22 +24,22 @@
 .light {
   /* Premium Industrial Light Mode System Tokens */
   --ds-bg: #ffffff;
-  --ds-bg-subtle: #fcfcfc;
+  --ds-bg-subtle: #fafafa;
   --ds-card: #f4f4f5;
-  --ds-border: rgba(0, 0, 0, 0.08);
-  --ds-border-subtle: rgba(0, 0, 0, 0.04);
+  --ds-border: rgba(0, 0, 0, 0.12);
+  --ds-border-subtle: rgba(0, 0, 0, 0.06);
   --ds-accent: #000000;
   --ds-accent-foreground: #ffffff;
-  --ds-muted: #71717a;
+  --ds-muted: #52525b;
   --ds-text: #09090b;
   --ds-text-dim: #27272a;
-  --ds-panel-bg: rgba(255, 255, 255, 0.4);
+  --ds-panel-bg: rgba(0, 0, 0, 0.02);
   --ds-btn-premium-bg: #000000;
   --ds-btn-premium-text: #ffffff;
-  --ds-btn-subtle-bg: rgba(0, 0, 0, 0.05);
-  --ds-dot-grid-color: rgba(0, 0, 0, 0.05);
+  --ds-btn-subtle-bg: rgba(0, 0, 0, 0.04);
+  --ds-dot-grid-color: rgba(0, 0, 0, 0.08);
   --ds-scrollbar-bg: #ffffff;
-  --ds-scrollbar-thumb: rgba(0, 0, 0, 0.05);
+  --ds-scrollbar-thumb: rgba(0, 0, 0, 0.1);
 }
 
 @theme {
@@ -137,6 +137,15 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

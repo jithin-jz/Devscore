@@ -11,3 +11,6 @@ python-decouple>=3.8,<4.0
 google-generativeai>=0.8.0
 google-genai>=0.1.0
 groq>=0.4.0
+channels>=4.0.0
+daphne>=4.0.0
+channels-redis>=4.0.0
