@@ -1,73 +1,48 @@
-<h1 align="center">DevScore / GitProof 🚀</h1>
+# DevScore 🚀
 
-<p align="center">
-  <strong>The Developer Intelligence Platform — Measure. Improve. Prove.</strong>
-</p>
+**Standardized Developer Intelligence Platform**
 
-<p align="center">
-  DevScore is an AI-powered system that analyzes developer contributions, architectural choices, and coding practices across their GitHub repositories to generate standardized engineering tiers (Baseline to Principal). Leverage Groq/Llama-3 for intelligent insights and dynamically generate shareable "GitProof" badges for your portfolio.
-</p>
-
-## ✨ Features
-
-- **GitHub Integration**: Authenticate instantly via GitHub OAuth.
-- **Deep Architectural Audit**: Uses AI (Groq + Llama-3.3-70b) to audit your repositories, evaluate file systems, and configuration complexity.
-- **Intelligent Scoring Pipeline**: Calculates a standardized "Engineering Tier," score breakdown (Consistency, Impact, Depth) via background workers.
-- **Actionable AI Recommendations**: Delivers highly specific, technical "Growth Vectors".
-- **GitProof Badges**: Shareable, dynamic SVG/UI widgets reflecting your real-world footprint.
-- **Industrial Dark & Light Themes**: Stunning, animated UI crafted with React, Vite, Framer Motion, and Tailwind CSS.
-- **K3s Ready**: Production-level orchestrations via ConfigMaps configurations.
+DevScore is an AI-powered system that analyzes GitHub contributions to generate standardized engineering tiers. It evaluates code quality, consistency, and architectural patterns to provide actionable insights for professional growth.
 
 ---
 
-## 🏗️ Architecture Stack
+## 🔥 Features
 
-| Layer           | Technologies Used                                     |
-|-----------------|-------------------------------------------------------|
-| **Frontend**    | React 18, Vite, Tailwind CSS, Framer Motion, Recharts |
-| **Backend**     | Django 5.x, Django REST Framework                     |
-| **Database**    | PostgreSQL 15                                         |
-| **Task Queue**  | Django Background Tasks                               |
-| **AI Inference**| Groq API (Llama 3.3 70B)                              |
-| **Auth**        | GitHub OAuth 2.0                                      |
-| **Deployment**  | Docker Compose, K3s (Kubernetes)                      |
+- **GitHub OAuth**: Instant authentication and repository sync.
+- **Deep Audit**: AI-driven architectural analysis using Groq + Llama 3.3.
+- **Scoring Pipeline**: Automated grading across Depth, Discipline, and Consistency.
+- **GitProof Badges**: Dynamically generated, shareable profile widgets.
+- **Industrial UI**: Premium dark/light themes built with React and Framer Motion.
 
----
+## 🛠️ Tech Stack
 
-## ⚡ Quick Start (Development)
+- **Frontend**: React, Vite, Tailwind CSS, Recharts.
+- **Backend**: Django 5, REST Framework, PostgreSQL.
+- **Async Logic**: Django Background Tasks.
+- **AI Engine**: Groq (Llama 3.3 70B).
+- **Infrastructure**: Docker Compose, Koyeb (Backend), Vercel (Frontend).
 
-### 1. Environment Setup
+## ⚡ Quick Start
 
-Clone the repository and prepare your environment files:
+### 1. Configure Environment
+
+Clone the repository and set up your `.env` file:
 
 ```bash
-# In the repository root
 cp .env.example .env
 ```
 
-Fill in the following credentials inside your new `.env` file:
+Update the `.env` with your **GitHub OAuth** and **Groq API** keys.
 
-- **GitHub OAuth:** Create an OAuth app at [GitHub Developer Settings](https://github.com/settings/developers). Set the Callback URL to `http://localhost:5173/auth/callback`.
-- **Groq API:** Get your AI keys at [Groq Console](https://console.groq.com/).
-- **Fernet Key:** Generate an encryption key for securely storing tokens in DB:
+### 2. Launch with Docker
 
-    ```bash
-    python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
-    ```
-
-### 2. Bootstrapping the Backend
-
-We use Docker Compose to spin up the database, cache, Django backend, and background workers:
+Spin up the database, cache, and backend services:
 
 ```bash
 docker compose up --build -d
 ```
 
-*Wait for the containers to spin up and migrations to automatically apply.*
-
-### 3. Running the Frontend
-
-Navigate to the frontend directory, install dependencies, and launch Vite:
+### 3. Start Frontend
 
 ```bash
 cd frontend
@@ -75,28 +50,17 @@ npm install
 npm run dev
 ```
 
-### 4. Access the Application
+## 🔐 Default Access
 
-- **Frontend Dashboard:** [http://localhost:5173](http://localhost:5173)
+- **Admin Panel**: `http://localhost:8000/admin`
+- **Username**: `jithin`
+- **Password**: `admin`
 
-- **Backend API Services:** [http://localhost:8000/api/](http://localhost:8000/api/)
-- **Django Admin Panel:** [http://localhost:8000/admin](http://localhost:8000/admin) (Default: `jithin` / `admin`)
+## 🌍 Deployment
 
----
-
-## 🛠️ Codebase Structure
-
-- `/backend/github/` - Handles OAuth handshakes, repository cloning logic, and GitHub GraphQL/REST integrations.
-- `/backend/scoring/` - Grading algorithms calculating aggregate scores across all fetched metrics.
-- `/backend/analytics/` - Auditory logic coordinating with LLMs to detect technical debt and architectural patterns.
-- `/backend/recs/` - Orchestrates the generation of "Growth Vector" advice to push users to the next engineering tier.
-- `/backend/badges/` - SVG widget generation to be embedded externally.
-- `/frontend/src/` - React SPA with custom "industrial" UI components, animations, and visualizations.
+- **Frontend**: Deployed on **Vercel**.
+- **Backend**: Deployed on **Koyeb** (Free Tier).
+- **Database**: Managed **Neon PostgreSQL**.
 
 ---
-
-## 🔒 Security
-
-- OAuth tokens are encrypted at rest using Fernet symmetric encryption.
-- No source code is permanently stored; file trees and config snippets are only fetched temporarily during the auditing cycle.
-- All backend pipelines are strongly typed and formatted adhering to rigorous `flake8` standards.
+*Created for the high-performance developer.*
