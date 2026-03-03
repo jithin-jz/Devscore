@@ -65,3 +65,4 @@ Thumbs.db
 .coverage
 htmlcov/
 pytest_report.xml
+
