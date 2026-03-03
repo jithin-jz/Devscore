@@ -12,7 +12,7 @@
 
 - **GitHub Integration**: Authenticate instantly via GitHub OAuth.
 - **Deep Architectural Audit**: Uses AI (Groq + Llama-3.3-70b) to audit your repositories, evaluate file systems, and configuration complexity.
-- **Intelligent Scoring Pipeline**: Calculates a standardized "Engineering Tier," score breakdown (Consistency, Impact, Depth) via Celery background workers.
+- **Intelligent Scoring Pipeline**: Calculates a standardized "Engineering Tier," score breakdown (Consistency, Impact, Depth) via background workers.
 - **Actionable AI Recommendations**: Delivers highly specific, technical "Growth Vectors".
 - **GitProof Badges**: Shareable, dynamic SVG/UI widgets reflecting your real-world footprint.
 - **Industrial Dark & Light Themes**: Stunning, animated UI crafted with React, Vite, Framer Motion, and Tailwind CSS.
@@ -27,7 +27,7 @@
 | **Frontend**    | React 18, Vite, Tailwind CSS, Framer Motion, Recharts |
 | **Backend**     | Django 5.x, Django REST Framework                     |
 | **Database**    | PostgreSQL 15                                         |
-| **Task Queue**  | Celery, Redis                                         |
+| **Task Queue**  | Django Background Tasks                               |
 | **AI Inference**| Groq API (Llama 3.3 70B)                              |
 | **Auth**        | GitHub OAuth 2.0                                      |
 | **Deployment**  | Docker Compose, K3s (Kubernetes)                      |
@@ -46,6 +46,7 @@ cp .env.example .env
 ```
 
 Fill in the following credentials inside your new `.env` file:
+
 - **GitHub OAuth:** Create an OAuth app at [GitHub Developer Settings](https://github.com/settings/developers). Set the Callback URL to `http://localhost:5173/auth/callback`.
 - **Groq API:** Get your AI keys at [Groq Console](https://console.groq.com/).
 - **Fernet Key:** Generate an encryption key for securely storing tokens in DB:
@@ -56,7 +57,7 @@ Fill in the following credentials inside your new `.env` file:
 
 ### 2. Bootstrapping the Backend
 
-We use Docker Compose to spin up the database, cache, Django backend, and Celery workers:
+We use Docker Compose to spin up the database, cache, Django backend, and background workers:
 
 ```bash
 docker compose up --build -d
@@ -76,9 +77,10 @@ npm run dev
 
 ### 4. Access the Application
 
-* **Frontend Dashboard:** [http://localhost:5173](http://localhost:5173)
+- **Frontend Dashboard:** [http://localhost:5173](http://localhost:5173)
+
 - **Backend API Services:** [http://localhost:8000/api/](http://localhost:8000/api/)
-- **Django Admin Panel:** [http://localhost:8000/admin](http://localhost:8000/admin)
+- **Django Admin Panel:** [http://localhost:8000/admin](http://localhost:8000/admin) (Default: `jithin` / `admin`)
 
 ---
 
