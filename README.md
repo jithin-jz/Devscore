@@ -1,72 +1,73 @@
-# DevScore 🚀
+# DevScore
 
 **Standardized Developer Intelligence Platform**
 
-DevScore is an AI-powered system that analyzes GitHub contributions to generate standardized engineering tiers. It evaluates code quality, consistency, and architectural patterns to provide actionable insights for professional growth.
+DevScore is an AI-powered platform that analyzes GitHub repositories to generate structured engineering tiers. It evaluates code quality, architectural decisions, contribution consistency, and technical depth to produce measurable developer insights.
 
 ---
 
-## 🔥 Features
+## Overview
 
-- **GitHub OAuth**: Instant authentication and repository sync.
-- **Deep Audit**: AI-driven architectural analysis using Groq + Llama 3.3.
-- **Scoring Pipeline**: Automated grading across Depth, Discipline, and Consistency.
-- **GitProof Badges**: Dynamically generated, shareable profile widgets.
-- **Industrial UI**: Premium dark/light themes built with React and Framer Motion.
+DevScore connects to a developer’s GitHub account, audits repositories using an AI-driven evaluation pipeline, and assigns standardized engineering levels. The system emphasizes objective metrics across architecture, discipline, and long-term contribution patterns.
 
-## 🛠️ Tech Stack
+The result is a quantified score breakdown and shareable “GitProof” badges for portfolios and public profiles.
 
-- **Frontend**: React, Vite, Tailwind CSS, Recharts.
-- **Backend**: Django 5, REST Framework, PostgreSQL.
-- **Async Logic**: Django Background Tasks.
-- **AI Engine**: Groq (Llama 3.3 70B).
-- **Infrastructure**: Docker Compose, Koyeb (Backend), Vercel (Frontend).
+---
 
-## ⚡ Quick Start
+## Features
 
-### 1. Configure Environment
+- **GitHub OAuth Integration**  
+  Secure authentication and repository synchronization.
 
-Clone the repository and set up your `.env` file:
+- **AI-Driven Repository Audit**  
+  Architectural and structural analysis powered by Groq (Llama 3.3 70B).
+
+- **Scoring Framework**  
+  Automated evaluation across:
+  - Depth
+  - Discipline
+  - Consistency
+
+- **GitProof Badges**  
+  Dynamically generated, embeddable credibility indicators.
+
+- **Professional Interface**  
+  Dark and light themes built with React and Framer Motion.
+
+---
+
+## Technology Stack
+
+### Frontend
+- React
+- Vite
+- Tailwind CSS
+- Recharts
+
+### Backend
+- Django 5
+- Django REST Framework
+- PostgreSQL
+
+### Asynchronous Processing
+- Django Background Tasks
+
+### AI Engine
+- Groq API (Llama 3.3 70B)
+
+### Infrastructure
+- Docker Compose
+- Koyeb (Backend Hosting)
+- Vercel (Frontend Hosting)
+- Neon PostgreSQL (Managed Database)
+
+---
+
+## Quick Start
+
+### 1. Environment Setup
+
+Clone the repository and create your environment file:
 
 ```bash
 cp .env.example .env
-```
-
-Update the `.env` with your **GitHub OAuth** and **Groq API** keys.
-
-### 2. Launch with Docker
-
-Spin up the database, cache, and backend services:
-
-```bash
-docker compose up --build -d
-```
-
-### 3. Start Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## 🔐 Default Access
-
-- **Admin Panel**: `http://localhost:8000/admin`
-- **Username**: `jithin`
-- **Password**: `admin`
-
-## 🌍 Deployment
-
-- **Frontend**: Deployed on **Vercel**.
-- **Backend**: Deployed on **Koyeb** (Free Tier).
-- **Database**: Managed **Neon PostgreSQL**.
-
----
-
-## 📄 License
-
-Licensed under the [MIT License](LICENSE).
-
----
-*Created for the high-performance developer.*
