@@ -1,7 +1,6 @@
 import GithubIcon from './ui/github-icon';
 import InstagramIcon from './ui/instagram-icon';
 import LinkedinIcon from './ui/linkedin-icon';
-import MailFilledIcon from './ui/mail-filled-icon';
 
 export default function Footer() {
     return (
@@ -16,17 +15,14 @@ export default function Footer() {
                     </div>
 
                     <div className="flex items-center gap-5">
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
+                        <a href="https://github.com/jithin-jz" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
                             <GithubIcon size={15} />
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
+                        <a href="https://www.linkedin.com/in/jithin-kr" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
                             <LinkedinIcon size={15} />
                         </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
+                        <a href="https://www.instagram.com/jithin.jz/" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
                             <InstagramIcon size={15} />
-                        </a>
-                        <a href="mailto:support@devscore.io" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
-                            <MailFilledIcon size={15} />
                         </a>
                     </div>
 
