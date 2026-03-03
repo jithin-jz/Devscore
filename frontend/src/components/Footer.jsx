@@ -15,11 +15,11 @@ export default function Footer() {
                     </div>
 
                     <div className="flex items-center gap-5">
-                        <a href="https://github.com/jithin-jz" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
-                            <GithubIcon size={15} />
-                        </a>
                         <a href="https://www.linkedin.com/in/jithin-kr" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
                             <LinkedinIcon size={15} />
+                        </a>
+                        <a href="https://github.com/jithin-jz" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
+                            <GithubIcon size={15} />
                         </a>
                         <a href="https://www.instagram.com/jithin.jz/" target="_blank" rel="noopener noreferrer" className="text-ds-muted hover:text-ds-text transition-all hover:scale-110">
                             <InstagramIcon size={15} />
