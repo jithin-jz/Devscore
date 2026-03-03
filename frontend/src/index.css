@@ -79,7 +79,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 
   * {
-    @apply border-ds-border;
+    @apply border-ds-border outline-none focus:outline-none focus-visible:outline-none;
   }
 
   body {

@@ -169,12 +169,12 @@ export default function Dashboard() {
                             className={`
                                 flex flex-1 lg:flex-none items-center justify-center gap-1.5 px-1 md:px-4 h-full text-[8.5px] lg:text-[9.5px] font-black uppercase tracking-wider transition-all group relative
                                 ${activeTab === tab.id
-                                    ? 'text-ds-text bg-ds-accent/5 lg:bg-ds-accent lg:text-ds-bg'
+                                    ? 'text-ds-text bg-ds-accent/5 lg:bg-transparent lg:text-ds-accent'
                                     : 'text-ds-muted hover:text-ds-text lg:hover:bg-ds-accent/5'
                                 }
                             `}
                         >
-                            <tab.icon size={10} color={activeTab === tab.id ? (window.innerWidth > 1024 ? "var(--ds-bg)" : "var(--ds-accent)") : "currentColor"} className="opacity-80 group-hover:opacity-100 hidden sm:block lg:block" />
+                            <tab.icon size={10} color={activeTab === tab.id ? "var(--ds-accent)" : "currentColor"} className="opacity-80 group-hover:opacity-100 hidden sm:block lg:block" />
                             <span>{tab.label}</span>
                             {activeTab === tab.id && (
                                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-ds-accent lg:hidden animate-premium-fade-in" />
