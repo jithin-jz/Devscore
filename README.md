@@ -63,4 +63,10 @@ npm run dev
 - **Database**: Managed **Neon PostgreSQL**.
 
 ---
+
+## 📄 License
+
+Licensed under the [MIT License](LICENSE).
+
+---
 *Created for the high-performance developer.*
