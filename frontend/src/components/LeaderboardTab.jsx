@@ -5,9 +5,24 @@ export default function LeaderboardTab() {
     const [leaders, setLeaders] = useState([]);
 
     useEffect(() => {
-        // Connect to WebSocket
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsUrl = import.meta.env.VITE_WS_URL || `${protocol}//${window.location.hostname}:8000/ws/leaderboard/`;
+        // Connect to WebSocket - Ensure we use the correct backend host
+        let wsUrl;
+        const apiBase = import.meta.env.VITE_API_BASE || '';
+
+        if (apiBase) {
+            // If we have an API base, use its hostname and replace http with ws
+            const url = new URL(apiBase);
+            const protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+            // Koyeb uses standard ports (443/80), so keep the port if explicitly provided locally, 
+            // otherwise use standard protocol ports.
+            const portStr = url.port ? `:${url.port}` : '';
+            wsUrl = `${protocol}//${url.hostname}${portStr}/ws/leaderboard/`;
+        } else {
+            // Fallback for local
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            wsUrl = `${protocol}//${window.location.hostname}:8000/ws/leaderboard/`;
+        }
+
         const ws = new WebSocket(wsUrl);
 
         ws.onopen = () => {
