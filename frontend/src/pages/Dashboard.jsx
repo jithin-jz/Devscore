@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../lib/auth';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
     getScore,
     getScoreHistory,
@@ -44,7 +44,8 @@ export default function Dashboard() {
     const [repos, setRepos] = useState([]);
     const [analyzing, setAnalyzing] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('overview');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'overview');
     const [scanMessage, setScanMessage] = useState('');
     const [showConfirmDelete, setShowConfirmDelete] = useState(false);
     const plugRef = useRef(null);
@@ -102,6 +103,13 @@ export default function Dashboard() {
         }, 5000);
         return () => clearInterval(interval);
     }, [analyzing, setUser]);
+
+    useEffect(() => {
+        const tab = searchParams.get('tab');
+        if (tab && tab !== activeTab) {
+            setActiveTab(tab);
+        }
+    }, [searchParams, activeTab]);
 
     const handleAnalyze = async () => {
         try {
@@ -165,9 +173,12 @@ export default function Dashboard() {
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
+                            onClick={() => {
+                                setActiveTab(tab.id);
+                                setSearchParams({ tab: tab.id });
+                            }}
                             className={`
-                                flex flex-1 lg:flex-none items-center justify-center gap-1.5 px-1 md:px-4 h-full text-[8.5px] lg:text-[9.5px] font-black uppercase tracking-wider transition-all group relative
+                                flex flex-1 lg:flex-none items-center justify-center gap-1.5 px-1 md:px-4 h-full text-[8.5px] lg:text-[9.5px] font-black uppercase tracking-wider transition-all group relative focus:outline-none
                                 ${activeTab === tab.id
                                     ? 'text-ds-text bg-ds-accent/5 lg:bg-transparent lg:text-ds-accent'
                                     : 'text-ds-muted hover:text-ds-text lg:hover:bg-ds-accent/5'
