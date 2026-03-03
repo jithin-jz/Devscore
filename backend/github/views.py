@@ -25,5 +25,5 @@ def audit_repository(request, repo_id):
     except Repository.DoesNotExist:
         return Response({"error": "Repository not found."}, status=status.HTTP_404_NOT_FOUND)
 
-    deep_audit_repository.delay(repo.id)
+    deep_audit_repository(repo.id)
     return Response({"status": "Audit pipeline started."})

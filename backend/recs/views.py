@@ -40,5 +40,5 @@ def tech_recs_dismiss(request, rec_id):
 @permission_classes([IsAuthenticated])
 def tech_recs_regenerate(request):
     """Manually regenerate tech recommendations."""
-    generate_tech_recs_task.delay(request.user.id)
+    generate_tech_recs_task(request.user.id)
     return Response({"status": "regeneration started"})

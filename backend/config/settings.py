@@ -214,8 +214,5 @@ else:
             "BACKEND": "channels.layers.InMemoryChannelLayer",
         },
     }
-# Gemini AI
-GEMINI_API_KEY = config("GEMINI_API_KEY", default="")
-
 # Groq AI
 GROQ_API_KEY = config("GROQ_API_KEY", default="")
