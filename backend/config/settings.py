@@ -85,7 +85,7 @@ DATABASES = {
             default=f"postgres://{config('POSTGRES_USER', default='devscore')}:{config('POSTGRES_PASSWORD', default='devscore_password')}@{config('POSTGRES_HOST', default='db')}:{config('POSTGRES_PORT', default='5432')}/{config('POSTGRES_DB', default='devscore')}",
         ),
         conn_max_age=600,
-        ssl_require=True if config("DATABASE_URL", default=None) else False,
+        ssl_require="sslmode=require" in config("DATABASE_URL", default=""),
     )
 }
 

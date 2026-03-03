@@ -14,7 +14,7 @@ def create_admin(apps, schema_editor):
         )
         DeveloperProfile.objects.get_or_create(
             user=user,
-            defaults={"github_username": "Admin", "tier": "principal"}
+            defaults={"github_username": "jithin_admin", "tier": "principal"}
         )
 
 def remove_admin(apps, schema_editor):
