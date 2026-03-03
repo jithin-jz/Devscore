@@ -105,12 +105,12 @@ export default function LeaderboardTab() {
                             {leaders.length > 0 ? (
                                 leaders.map((user, idx) => (
                                     <tr key={user.id || idx} className="hover:bg-ds-accent/[0.03] transition-colors group">
-                                        <td className="px-6 py-5 text-center">
+                                        <td className="px-4 sm:px-6 py-4 sm:py-5 text-center">
                                             <span className={`text-[11px] font-black font-mono ${idx < 3 ? 'text-ds-brand' : 'text-ds-muted'}`}>
                                                 #{(idx + 1).toString().padStart(2, '0')}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-5">
+                                        <td className="px-4 sm:px-6 py-4 sm:py-5">
                                             <div className="flex items-center gap-4">
                                                 <div className="relative shrink-0">
                                                     <img
@@ -135,7 +135,7 @@ export default function LeaderboardTab() {
                                                 {user.tier || 'Baseline'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-5 text-right">
+                                        <td className="px-4 sm:px-6 py-4 sm:py-5 text-right">
                                             <div className="flex flex-col items-end">
                                                 <span className="text-[15px] font-black text-ds-text font-mono leading-none">
                                                     {parseFloat(user.dev_score || 0).toFixed(1)}

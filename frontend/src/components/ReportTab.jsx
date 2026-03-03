@@ -21,7 +21,7 @@ export default function ReportTab({ user, score, history, repos }) {
             </header>
 
             {/* The Dossier (Printable Area) */}
-            <div className="ds-panel p-16 space-y-20 relative bg-ds-bg font-sans print:p-0 print:border-0 print:bg-transparent overflow-hidden">
+            <div className="ds-panel p-6 sm:p-10 md:p-16 space-y-12 md:space-y-20 relative bg-ds-bg font-sans print:p-0 print:border-0 print:bg-transparent overflow-hidden">
                 <div className="absolute top-0 right-0 p-10 print:hidden">
                     <ShieldCheck size={120} className="text-ds-accent/[0.03]" />
                 </div>
@@ -45,16 +45,16 @@ export default function ReportTab({ user, score, history, repos }) {
                 </section>
 
                 {/* Core Metrics Block */}
-                <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-                    <div className="h-[400px] print:h-[300px]">
+                <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20 items-center">
+                    <div className="h-[280px] sm:h-[350px] md:h-[400px] print:h-[300px]">
                         <RadarChart data={score} />
                     </div>
                     <div className="space-y-12">
                         <div className="space-y-4">
-                            <h3 className="text-xs font-black uppercase text-ds-muted tracking-widest">Overall DevScore</h3>
+                            <h3 className="text-[10px] md:text-xs font-black uppercase text-ds-muted tracking-widest">Overall DevScore</h3>
                             <div className="flex items-end gap-3 font-display">
-                                <span className="text-8xl font-black text-ds-text print:text-black leading-none tracking-tighter">{Math.round(user?.dev_score || 0)}</span>
-                                <span className="text-xl text-ds-muted mb-3 opacity-40">/ 100</span>
+                                <span className="text-6xl sm:text-7xl md:text-8xl font-black text-ds-text print:text-black leading-none tracking-tighter">{Math.round(user?.dev_score || 0)}</span>
+                                <span className="text-sm sm:text-base md:text-xl text-ds-muted mb-2 sm:mb-3 opacity-40">/ 100</span>
                             </div>
                         </div>
 

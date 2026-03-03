@@ -178,7 +178,7 @@ export default function Dashboard() {
                                 setSearchParams({ tab: tab.id });
                             }}
                             className={`
-                                flex flex-1 lg:flex-none items-center justify-center gap-1.5 px-1 md:px-4 h-full text-[8.5px] lg:text-[9.5px] font-black uppercase tracking-wider transition-all group relative focus:outline-none
+                                flex flex-1 lg:flex-none items-center justify-center gap-1.5 px-1 md:px-4 h-full text-[9px] sm:text-[10px] lg:text-[9.5px] font-black uppercase tracking-wider transition-all group relative focus:outline-none
                                 ${activeTab === tab.id
                                     ? 'text-ds-text bg-ds-accent/5 lg:bg-transparent lg:text-ds-accent'
                                     : 'text-ds-muted hover:text-ds-text lg:hover:bg-ds-accent/5'
@@ -198,7 +198,7 @@ export default function Dashboard() {
                 </nav>
             </Navbar>
 
-            <main className="max-w-[1500px] mx-auto w-full px-4 md:px-6 py-4 md:py-8 flex-1 flex flex-col gap-6 md:gap-8 animate-premium-fade-in">
+            <main className="max-w-[1500px] mx-auto w-full px-3 sm:px-4 md:px-6 py-4 md:py-8 flex-1 flex flex-col gap-6 md:gap-8 animate-premium-fade-in">
                 {activeTab === 'overview' && (
                     <div className="space-y-8">
                         {!hasScore && !analyzing ? (
@@ -218,7 +218,7 @@ export default function Dashboard() {
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                                 {/* Left Side: Primary Metrics */}
                                 <div className="lg:col-span-3 space-y-8">
-                                    <div className="h-[300px]">
+                                    <div className="h-[260px] md:h-[300px]">
                                         <ScoreCard score={user?.dev_score || 0} tier={user?.tier || 'Baseline'} />
                                     </div>
 
