@@ -1,6 +1,6 @@
 # DevScore
 
-**Standardized Developer Intelligence Platform**
+**Developer Intelligence Platform**
 
 DevScore is an AI-powered platform that analyzes GitHub repositories to generate structured engineering tiers. It evaluates code quality, architectural decisions, contribution consistency, and technical depth to produce measurable developer insights.
 
