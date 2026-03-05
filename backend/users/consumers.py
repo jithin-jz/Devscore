@@ -1,7 +1,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .models import DeveloperProfile
 from asgiref.sync import sync_to_async
+from .utils import get_leaderboard_payload
 
 
 class LeaderboardConsumer(AsyncWebsocketConsumer):
@@ -38,20 +38,4 @@ class LeaderboardConsumer(AsyncWebsocketConsumer):
     @sync_to_async
     def get_top_100(self):
         """Fetch top 100 users ordered by descending dev_score."""
-        # Can't easily use DRF serializer inside async block, so we construct dicts
-        profiles = list(DeveloperProfile.objects.exclude(dev_score=0.0).order_by("-dev_score")[:100])
-        
-        results = []
-        for p in profiles:
-            results.append({
-                "id": str(p.id),
-                "username": p.user.username,
-                "github_username": p.github_username,
-                "avatar_url": p.avatar_url,
-                "bio": p.bio,
-                "dev_score": p.dev_score,
-                "tier": p.tier,
-                "analysis_status": p.analysis_status,
-                "is_admin": p.user.is_superuser,
-            })
-        return results
+        return get_leaderboard_payload(limit=100, use_cache=True)

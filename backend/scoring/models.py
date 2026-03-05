@@ -38,6 +38,9 @@ class ScoreHistory(models.Model):
     class Meta:
         ordering = ["-created_at"]
         verbose_name_plural = "Score History"
+        indexes = [
+            models.Index(fields=["user", "-created_at"], name="score_user_created_idx"),
+        ]
 
     def __str__(self):
         return f"{self.user.username}: {self.score} @ {self.created_at}"

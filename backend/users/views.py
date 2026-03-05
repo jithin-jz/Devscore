@@ -1,6 +1,7 @@
 import requests as http_requests
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db.models import Avg, Count, Q
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -163,20 +164,38 @@ def admin_stats(request):
     if not request.user.is_superuser:
         return Response({"error": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
 
-    users = DeveloperProfile.objects.all().order_by("-created_at")
+    base_queryset = DeveloperProfile.objects.select_related("user")
+    stats = base_queryset.aggregate(
+        total_users=Count("id"),
+        avg_score=Avg("dev_score"),
+        total_analyses=Count("id", filter=Q(analysis_status="complete")),
+    )
+    recent_users = (
+        base_queryset.order_by("-created_at")
+        .only(
+            "id",
+            "github_username",
+            "avatar_url",
+            "bio",
+            "dev_score",
+            "tier",
+            "analysis_status",
+            "last_analyzed",
+            "created_at",
+            "user__username",
+            "user__email",
+            "user__is_superuser",
+        )[:50]
+    )
 
-    total_users = users.count()
-    avg_score = sum(u.dev_score for u in users if u.dev_score) / total_users if total_users > 0 else 0
-    total_analyses = sum(1 for u in users if u.analysis_status == "complete")
-
-    users_data = ProfileSerializer(users, many=True).data
+    users_data = ProfileSerializer(recent_users, many=True).data
 
     return Response(
         {
-            "total_users": total_users,
-            "avg_score": round(avg_score, 1),
-            "total_analyses": total_analyses,
-            "recent_users": users_data[:50],
+            "total_users": stats["total_users"] or 0,
+            "avg_score": round(stats["avg_score"] or 0.0, 1),
+            "total_analyses": stats["total_analyses"] or 0,
+            "recent_users": users_data,
         }
     )
 
@@ -208,11 +227,11 @@ def admin_delete_user(request, user_id):
                 score_data = None
 
             # Get Score History
-            history = ScoreHistory.objects.filter(user=target_user)
+            history = ScoreHistory.objects.filter(user=target_user).order_by("-created_at")[:100]
             history_data = ScoreHistorySerializer(history, many=True).data
 
             # Get Recommendations
-            recs = Recommendation.objects.filter(user=target_user)
+            recs = Recommendation.objects.filter(user=target_user).order_by("-created_at")[:100]
             recs_data = RecommendationSerializer(recs, many=True).data
 
             # Return aggregated info

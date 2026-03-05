@@ -30,6 +30,10 @@ class Recommendation(models.Model):
 
     class Meta:
         ordering = ["priority", "-created_at"]
+        indexes = [
+            models.Index(fields=["user", "is_resolved"], name="recs_user_res_idx"),
+            models.Index(fields=["user", "-created_at"], name="recs_user_created_idx"),
+        ]
 
     def __str__(self):
         return f"{self.category}: {self.title}"
@@ -64,6 +68,10 @@ class TechRecommendation(models.Model):
 
     class Meta:
         ordering = ["priority", "-created_at"]
+        indexes = [
+            models.Index(fields=["user", "is_dismissed"], name="tech_user_dismissed_idx"),
+            models.Index(fields=["user", "-created_at"], name="tech_user_created_idx"),
+        ]
 
     def __str__(self):
         return f"{self.technology}: {self.category}"

@@ -24,8 +24,20 @@ logger = logging.getLogger(__name__)
 def calculate_user_score(user_id):
     """Calculate all category scores and final DevScore for a user."""
     try:
-        user = User.objects.get(id=user_id)
-        repos = list(Repository.objects.filter(user=user))
+        user = User.objects.select_related("profile").get(id=user_id)
+        repos = list(
+            Repository.objects.filter(user=user).only(
+                "primary_language",
+                "has_ci",
+                "has_docker",
+                "has_tests",
+                "has_lint",
+                "has_types",
+                "is_fork",
+                "stars",
+                "forks",
+            )
+        )
         metrics = ContributionMetrics.objects.filter(user=user).first()
         weights = ScoringConfig.get_weights()
 
@@ -47,7 +59,7 @@ def calculate_user_score(user_id):
         final_score = calculate_dev_score(breakdown_dict, weights)
 
         # Save breakdown
-        breakdown, _ = ScoreBreakdown.objects.update_or_create(
+        ScoreBreakdown.objects.update_or_create(
             user=user,
             defaults={
                 **breakdown_dict,
@@ -77,11 +89,11 @@ def calculate_user_score(user_id):
             logger.error(f"Failed to broadcast leaderboard: {e}")
 
         logger.info(f"Calculated DevScore for {user.username}: {final_score} ({profile.tier})")
-        
+
         # Trigger recommendations engine
         from recs.tasks import generate_recs, generate_tech_recs_task
-        generate_recs(user_id)
-        generate_tech_recs_task(user_id)
+        generate_recs(user_id, schedule=1)
+        generate_tech_recs_task(user_id, schedule=1)
 
     except Exception as exc:
         logger.error(f"Error calculating score for user {user_id}: {exc}")

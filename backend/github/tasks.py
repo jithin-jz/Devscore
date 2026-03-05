@@ -2,12 +2,34 @@ import logging
 from datetime import datetime, timezone
 
 from background_task import background
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.utils.dateparse import parse_datetime
 
 from .models import Repository, ContributionMetrics
 from .github_client import GitHubClient
 
 logger = logging.getLogger(__name__)
+
+
+def _parse_github_datetime(value):
+    if not value:
+        return None
+    parsed = parse_datetime(value)
+    if parsed is None:
+        return None
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed
+
+
+def _apply_repo_features(repo, features, analyzed_at):
+    repo.has_ci = features["has_ci"]
+    repo.has_tests = features["has_tests"]
+    repo.has_docker = features["has_docker"]
+    repo.has_lint = features["has_lint"]
+    repo.has_types = features["has_types"]
+    repo.analyzed_at = analyzed_at
 
 
 @background(schedule=0)
@@ -25,17 +47,14 @@ def fetch_repositories(user_id):
         if repos is None:
             raise Exception("Failed to fetch repositories from GitHub")
 
+        repo_payloads = []
         for repo_data in repos:
             if repo_data.get("private"):
                 continue
 
-            repo_created = repo_data.get("created_at")
-            repo_updated = repo_data.get("updated_at")
-
-            Repository.objects.update_or_create(
-                user=user,
-                full_name=repo_data["full_name"],
-                defaults={
+            repo_payloads.append(
+                {
+                    "full_name": repo_data["full_name"],
                     "name": repo_data["name"],
                     "description": repo_data.get("description") or "",
                     "primary_language": repo_data.get("language") or "",
@@ -44,15 +63,63 @@ def fetch_repositories(user_id):
                     "is_fork": repo_data.get("fork", False),
                     "size_kb": repo_data.get("size", 0),
                     "open_issues_count": repo_data.get("open_issues_count", 0),
-                    "repo_created_at": repo_created,
-                    "repo_updated_at": repo_updated,
-                },
+                    "repo_created_at": _parse_github_datetime(repo_data.get("created_at")),
+                    "repo_updated_at": _parse_github_datetime(repo_data.get("updated_at")),
+                }
             )
 
-        logger.info(f"Fetched {len(repos)} repos for {user.username}")
-        
+        existing_map = {
+            repo.full_name: repo
+            for repo in Repository.objects.filter(
+                user=user,
+                full_name__in=[payload["full_name"] for payload in repo_payloads],
+            )
+        }
+
+        update_fields = [
+            "name",
+            "description",
+            "primary_language",
+            "stars",
+            "forks",
+            "is_fork",
+            "size_kb",
+            "open_issues_count",
+            "repo_created_at",
+            "repo_updated_at",
+        ]
+        to_create = []
+        to_update = []
+
+        for payload in repo_payloads:
+            existing = existing_map.get(payload["full_name"])
+            if existing:
+                changed = False
+                for field in update_fields:
+                    value = payload[field]
+                    if getattr(existing, field) != value:
+                        setattr(existing, field, value)
+                        changed = True
+                if changed:
+                    to_update.append(existing)
+            else:
+                to_create.append(Repository(user=user, **payload))
+
+        if to_create:
+            Repository.objects.bulk_create(to_create, batch_size=200)
+        if to_update:
+            Repository.objects.bulk_update(to_update, update_fields, batch_size=200)
+
+        logger.info(
+            "Fetched %s public repos for %s (created=%s updated=%s unchanged=%s)",
+            len(repo_payloads),
+            user.username,
+            len(to_create),
+            len(to_update),
+            len(repo_payloads) - len(to_create) - len(to_update),
+        )
+
         # Trigger next step: fetch contribution metrics
-        from .tasks import fetch_contribution_metrics
         fetch_contribution_metrics(user_id)
 
     except Exception as exc:
@@ -120,7 +187,7 @@ def fetch_contribution_metrics(user_id):
                 current_streak = 1
         max_streak = max(max_streak, current_streak) if sorted_dates else 0
 
-        metrics, _ = ContributionMetrics.objects.update_or_create(
+        ContributionMetrics.objects.update_or_create(
             user=user,
             defaults={
                 "total_commits": commits,
@@ -136,9 +203,8 @@ def fetch_contribution_metrics(user_id):
         )
 
         logger.info(f"Fetched contribution metrics for {user.username}")
-        
+
         # Trigger next step: analyze all repos
-        from .tasks import analyze_all_repos_task
         analyze_all_repos_task(user_id)
 
     except Exception as exc:
@@ -150,15 +216,62 @@ def fetch_contribution_metrics(user_id):
 def analyze_all_repos_task(user_id):
     """Analyze all repositories for a user synchronously in the background."""
     try:
-        repos = Repository.objects.filter(user_id=user_id)
+        user = User.objects.select_related("profile").get(id=user_id)
+        client = GitHubClient(user.profile.get_github_token())
+        repos = list(Repository.objects.filter(user_id=user_id))
+
+        stale_repos = []
         for repo in repos:
-            # We can run the analysis logic directly here to ensure it finishes before scoring
-            _perform_repo_analysis(repo.id)
-        
+            if repo.analyzed_at is None:
+                stale_repos.append(repo)
+                continue
+            if repo.repo_updated_at and repo.analyzed_at < repo.repo_updated_at:
+                stale_repos.append(repo)
+
+        max_repos_per_run = int(getattr(settings, "ANALYZE_MAX_REPOS_PER_RUN", 120))
+        total_stale = len(stale_repos)
+        if max_repos_per_run > 0 and len(stale_repos) > max_repos_per_run:
+            stale_repos = sorted(
+                stale_repos,
+                key=lambda repo: repo.repo_updated_at or datetime.min.replace(tzinfo=timezone.utc),
+                reverse=True,
+            )[:max_repos_per_run]
+
+        if stale_repos:
+            analyzed_at = datetime.now(timezone.utc)
+            updated_repos = []
+            for repo in stale_repos:
+                try:
+                    features = client.detect_repo_features(repo.full_name)
+                    _apply_repo_features(repo, features, analyzed_at)
+                    updated_repos.append(repo)
+                except Exception as exc:
+                    logger.error(f"Error analyzing repo {repo.id}: {exc}")
+
+            if updated_repos:
+                Repository.objects.bulk_update(
+                    updated_repos,
+                    ["has_ci", "has_tests", "has_docker", "has_lint", "has_types", "analyzed_at"],
+                    batch_size=100,
+                )
+
+        analyzed_count = len(stale_repos)
+        deferred_count = max(total_stale - analyzed_count, 0)
+        up_to_date_count = max(len(repos) - total_stale, 0)
+        logger.info(
+            "Analyzed repositories for user %s (total=%s stale=%s analyzed=%s deferred=%s up_to_date=%s)",
+            user.username,
+            len(repos),
+            total_stale,
+            analyzed_count,
+            deferred_count,
+            up_to_date_count,
+        )
+
         # Trigger next step: scoring
         from scoring.tasks import calculate_user_score
         calculate_user_score(user_id)
-        
+
     except Exception as exc:
         logger.error(f"Error in analyze_all_repos_task for user {user_id}: {exc}")
         raise exc
@@ -171,14 +284,8 @@ def _perform_repo_analysis(repo_id):
         client = GitHubClient(repo.user.profile.get_github_token())
 
         features = client.detect_repo_features(repo.full_name)
-
-        repo.has_ci = features["has_ci"]
-        repo.has_tests = features["has_tests"]
-        repo.has_docker = features["has_docker"]
-        repo.has_lint = features["has_lint"]
-        repo.has_types = features["has_types"]
-        repo.analyzed_at = datetime.now(timezone.utc)
-        repo.save()
+        _apply_repo_features(repo, features, datetime.now(timezone.utc))
+        repo.save(update_fields=["has_ci", "has_tests", "has_docker", "has_lint", "has_types", "analyzed_at"])
 
         logger.info(f"Analyzed repo {repo.full_name}")
 

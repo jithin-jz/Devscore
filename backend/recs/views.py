@@ -11,7 +11,16 @@ from .tasks import generate_tech_recs_task
 @permission_classes([IsAuthenticated])
 def recs_list(request):
     """Get current recs for authenticated user."""
-    recs = Recommendation.objects.filter(user=request.user, is_resolved=False)
+    recs = Recommendation.objects.filter(user=request.user, is_resolved=False).only(
+        "id",
+        "category",
+        "title",
+        "description",
+        "priority",
+        "action_url",
+        "is_resolved",
+        "created_at",
+    )
     return Response(RecommendationSerializer(recs, many=True).data)
 
 
@@ -19,7 +28,17 @@ def recs_list(request):
 @permission_classes([IsAuthenticated])
 def tech_recs_list(request):
     """Get current tech recommendations for authenticated user."""
-    recs = TechRecommendation.objects.filter(user=request.user, is_dismissed=False)
+    recs = TechRecommendation.objects.filter(user=request.user, is_dismissed=False).only(
+        "id",
+        "technology",
+        "category",
+        "reason",
+        "learning_resources",
+        "priority",
+        "career_impact",
+        "is_dismissed",
+        "created_at",
+    )
     return Response(TechRecommendationSerializer(recs, many=True).data)
 
 

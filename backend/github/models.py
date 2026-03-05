@@ -28,6 +28,11 @@ class Repository(models.Model):
     class Meta:
         unique_together = ["user", "full_name"]
         ordering = ["-stars"]
+        indexes = [
+            models.Index(fields=["user", "-stars"], name="repo_user_stars_idx"),
+            models.Index(fields=["user", "repo_updated_at"], name="repo_user_updated_idx"),
+            models.Index(fields=["user", "analyzed_at"], name="repo_user_analyzed_idx"),
+        ]
 
     def __str__(self):
         return self.full_name

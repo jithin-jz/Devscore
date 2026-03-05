@@ -40,7 +40,7 @@ class DeveloperProfile(models.Model):
     avatar_url = models.URLField(max_length=500, blank=True, default="")
     github_token_encrypted = models.TextField(blank=True, default="")
     bio = models.TextField(blank=True, default="")
-    dev_score = models.FloatField(default=0.0)
+    dev_score = models.FloatField(default=0.0, db_index=True)
     tier = models.CharField(max_length=20, choices=TIER_CHOICES, default="baseline")
     analysis_status = models.CharField(
         max_length=20,
@@ -52,6 +52,7 @@ class DeveloperProfile(models.Model):
             ("failed", "Failed"),
         ],
         default="idle",
+        db_index=True,
     )
     last_analyzed = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
