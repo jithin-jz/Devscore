@@ -101,7 +101,7 @@ export default function AdminDashboard() {
 
                     <div className="ds-panel flex flex-col gap-4">
                         <div className="flex items-center justify-between opacity-50">
-                            <span className="ds-label">Avg Platform Scoreeeeeee</span>
+                            <span className="ds-label">Avg Platform Score</span>
                             <Target size={16} />
                         </div>
                         <div className="text-4xl font-black text-ds-brand">{stats?.avg_score || 0}</div>
