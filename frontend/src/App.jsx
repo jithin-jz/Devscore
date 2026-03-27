@@ -8,44 +8,56 @@ import Leaderboard from './pages/Leaderboard';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 
+import RootLayout from './components/RootLayout';
+
 function ProtectedRoute({ children }) {
     const { user, loading } = useAuth();
+    const hasToken = !!localStorage.getItem('devscore_token');
 
-    if (loading) {
+    // Only show full-screen spinner if we're loading AND don't even have a token to start with
+    // If we have a token, we assume authentication is valid until the background check completes
+    if (loading && !hasToken) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-ds-bg">
-                <div className="w-8 h-8 border-2 border-white/5 border-t-white rounded-full animate-spin" />
+            <div className="min-h-screen flex items-center justify-center bg-ds-bg dot-grid">
+                <div className="noise-overlay" />
+                <div className="w-8 h-8 border-2 border-white/5 border-t-ds-brand rounded-full animate-spin" />
             </div>
         );
     }
 
-    return user ? children : <Navigate to="/" />;
+    if (!loading && !user) {
+        return <Navigate to="/" />;
+    }
+
+    return children;
 }
 
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route element={<RootLayout />}>
+                <Route path="/" element={<Landing />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route path="/admin" element={<AdminLogin />} />
+                <Route
+                    path="/admin/dashboard"
+                    element={
+                        <ProtectedRoute>
+                            <AdminDashboard />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Route>
             <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route
-                path="/dashboard"
-                element={
-                    <ProtectedRoute>
-                        <Dashboard />
-                    </ProtectedRoute>
-                }
-            />
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route
-                path="/admin/dashboard"
-                element={
-                    <ProtectedRoute>
-                        <AdminDashboard />
-                    </ProtectedRoute>
-                }
-            />
-            <Route path="*" element={<Navigate to="/" />} />
         </Routes>
     );
 }

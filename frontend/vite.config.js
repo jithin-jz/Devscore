@@ -13,4 +13,16 @@ export default defineConfig({
             '/badge': 'http://localhost:8000',
         },
     },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['react', 'react-dom', 'react-router-dom'],
+                    ui: ['lucide-react', 'motion', '@headlessui/react'],
+                    charts: ['recharts'],
+                },
+            },
+        },
+        chunkSizeWarningLimit: 1000,
+    },
 });

@@ -1,14 +1,89 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
-import { Menu, X, Trophy, LayoutDashboard, LogOut } from 'lucide-react';
+import { Menu, X, Trophy, LayoutDashboard, LogOut, Star, ShieldCheck, Settings, ScanBarcode, FileText } from 'lucide-react';
+import { motion } from 'motion/react';
+import LayoutDashboardIcon from './ui/layout-dashboard-icon';
+import StarIcon from './ui/star-icon';
+import ScanBarcodeIcon from './ui/scan-barcode-icon';
+import ShieldCheckIcon from './ui/shield-check';
+import GearIcon from './ui/gear-icon';
 
-export default function Navbar({ children }) {
+export default function Navbar() {
     const { user, logout } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const activeTab = searchParams.get('tab') || 'overview';
+    const isDashboard = location.pathname === '/dashboard';
+
+    const tabs = useMemo(() => [
+        { id: 'overview', label: 'Overview', icon: LayoutDashboardIcon },
+        { id: 'growth', label: 'Growth', icon: StarIcon },
+        { id: 'auditor', label: 'Auditor', icon: ScanBarcodeIcon },
+        { id: 'report', label: 'Dossier', icon: ShieldCheckIcon },
+        { id: 'settings', label: 'Settings', icon: GearIcon },
+    ], []);
+
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 10);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const renderTabs = () => {
+        if (!isDashboard) return null;
+        return (
+            <nav className="flex items-center w-full justify-between lg:justify-center h-10 lg:h-14 lg:gap-1">
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => {
+                            setSearchParams({ tab: tab.id });
+                        }}
+                        className={`
+                            flex flex-1 lg:flex-none items-center justify-center gap-1.5 px-1 md:px-4 h-full text-[9px] sm:text-[10px] lg:text-[9.5px] font-black uppercase tracking-wider transition-all group relative focus:outline-none
+                            ${
+                                activeTab === tab.id
+                                    ? 'text-ds-text bg-ds-accent/5 lg:bg-transparent lg:text-ds-accent'
+                                    : 'text-ds-muted hover:text-ds-text lg:hover:bg-ds-accent/5'
+                            }
+                        `}
+                    >
+                        <tab.icon
+                            size={10}
+                            color={activeTab === tab.id ? 'var(--ds-accent)' : 'currentColor'}
+                            className="opacity-80 group-hover:opacity-100 hidden sm:block lg:block"
+                        />
+                        <span>{tab.label}</span>
+                        {activeTab === tab.id && (
+                            <motion.div 
+                                layoutId="nav-tab-active"
+                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-ds-accent lg:hidden" 
+                            />
+                        )}
+                        {activeTab === tab.id && (
+                            <motion.div 
+                                layoutId="nav-tab-active-pill"
+                                className="hidden lg:block absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-ds-accent rounded-full" 
+                            />
+                        )}
+                    </button>
+                ))}
+            </nav>
+        );
+    };
 
     return (
-        <header className="border-b border-ds-border bg-ds-bg/60 backdrop-blur-xl sticky top-0 z-50">
+        <header 
+            className={`border-b border-ds-border transition-all duration-300 sticky top-0 z-50 ${
+                scrolled 
+                    ? 'bg-ds-bg/80 backdrop-blur-2xl shadow-xl shadow-black/5' 
+                    : 'bg-ds-bg/60 backdrop-blur-xl'
+            }`}
+        >
             <div className="max-w-[1500px] mx-auto px-4 md:px-6 h-12 md:h-14 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 shrink-0">
                     <Link
@@ -28,16 +103,24 @@ export default function Navbar({ children }) {
                     <nav className="hidden lg:flex items-center gap-6 ml-4 border-l border-ds-border pl-6">
                         <Link
                             to="/leaderboard"
-                            className="text-[10px] font-black uppercase tracking-widest text-ds-muted hover:text-ds-text transition-colors"
+                            className={`text-[10px] font-black uppercase tracking-widest transition-all relative ${
+                                location.pathname === '/leaderboard' ? 'text-ds-text' : 'text-ds-muted hover:text-ds-text'
+                            }`}
                         >
                             Leaderboard
+                            {location.pathname === '/leaderboard' && (
+                                <motion.div 
+                                    layoutId="nav-active-pill"
+                                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-ds-brand rounded-full" 
+                                />
+                            )}
                         </Link>
                     </nav>
                 </div>
 
                 {/* Desktop Tabs Middle */}
                 <div className="hidden lg:flex flex-1 justify-center max-w-2xl px-4">
-                    {children}
+                    {renderTabs()}
                 </div>
 
                 <div className="flex items-center gap-3 md:gap-4 shrink-0">
@@ -72,9 +155,9 @@ export default function Navbar({ children }) {
             </div>
 
             {/* Mobile Tabs Row - More Compact */}
-            {children && (
+            {isDashboard && (
                 <div className="lg:hidden border-t border-ds-border bg-ds-bg/40 backdrop-blur-md">
-                    <div className="max-w-full overflow-hidden">{children}</div>
+                    <div className="max-w-full overflow-hidden">{renderTabs()}</div>
                 </div>
             )}
 

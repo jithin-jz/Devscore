@@ -1,18 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 export default function Landing() {
     const { user } = useAuth();
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${import.meta.env.VITE_GITHUB_CLIENT_ID}&scope=read:user,repo&redirect_uri=${encodeURIComponent(window.location.origin + '/auth/callback')}`;
 
     return (
-        <div className="relative min-h-screen bg-ds-bg text-ds-text selection:bg-ds-accent selection:text-ds-bg flex flex-col dot-grid">
-            <div className="noise-overlay" />
-
-            <Navbar />
-
+        <>
             {/* Hero Section */}
             <main className="relative z-10 pt-10 pb-20 md:pt-16 md:pb-32">
                 <div className="max-w-[1500px] mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -126,8 +120,6 @@ export default function Landing() {
                     </div>
                 </div>
             </section>
-
-            <Footer />
-        </div>
+        </>
     );
 }
