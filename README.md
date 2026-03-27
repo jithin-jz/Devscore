@@ -1,5 +1,7 @@
 # DevScore
 
+![DevScore Banner](./frontend/public/devscore.png)
+
 **Developer Intelligence Platform**
 
 DevScore is an AI-powered platform that analyzes GitHub repositories to generate structured engineering tiers. It evaluates code quality, architectural decisions, contribution consistency, and technical depth to produce measurable developer insights.
@@ -10,7 +12,7 @@ DevScore is an AI-powered platform that analyzes GitHub repositories to generate
 
 DevScore connects to a developer’s GitHub account, audits repositories using an AI-driven evaluation pipeline, and assigns standardized engineering levels. The system emphasizes objective metrics across architecture, discipline, and long-term contribution patterns.
 
-The result is a quantified score breakdown and shareable “GitProof” badges for portfolios and public profiles.
+The result is a quantified score breakdown and shareable “DevScore Dossier” badges for portfolios and public profiles.
 
 ---
 
@@ -28,7 +30,7 @@ The result is a quantified score breakdown and shareable “GitProof” badges f
   - Discipline
   - Consistency
 
-- **GitProof Badges**  
+- **DevScore Badges**  
   Dynamically generated, embeddable credibility indicators.
 
 - **Professional Interface**  
