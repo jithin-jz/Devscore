@@ -16,10 +16,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="repository",
-            index=models.Index(fields=["user", "repo_updated_at"], name="repo_user_updated_idx"),
+            index=models.Index(
+                fields=["user", "repo_updated_at"], name="repo_user_updated_idx"
+            ),
         ),
         migrations.AddIndex(
             model_name="repository",
-            index=models.Index(fields=["user", "analyzed_at"], name="repo_user_analyzed_idx"),
+            index=models.Index(
+                fields=["user", "analyzed_at"], name="repo_user_analyzed_idx"
+            ),
         ),
     ]

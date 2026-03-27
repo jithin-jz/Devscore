@@ -1,5 +1,3 @@
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from .models import DeveloperProfile
 
@@ -51,25 +49,3 @@ def get_leaderboard_payload(limit=100, use_cache=True):
 
     cache.set(cache_key, results, LEADERBOARD_CACHE_TTL_SECONDS)
     return results
-
-
-def broadcast_leaderboard():
-    """
-    Fetch the top 100 profiles and broadcast to the 'leaderboard' WebSocket group.
-    Can be called synchronously from anywhere in Django (like views or Celery tasks).
-    """
-    channel_layer = get_channel_layer()
-    if not channel_layer:
-        return
-
-    # Refresh cache with the latest leaderboard before broadcasting.
-    results = get_leaderboard_payload(limit=100, use_cache=False)
-
-    # Send message to the group
-    async_to_sync(channel_layer.group_send)(
-        "leaderboard",
-        {
-            "type": "leaderboard_update",
-            "data": results,
-        }
-    )

@@ -20,24 +20,36 @@ def perform_deep_audit(repository, token):
         client = GitHubClient(token)
         # 1. Fetch Repository Details to get default branch
         repo_details = client.get_repo_details(repository.full_name)
-        default_branch = repo_details.get("default_branch", "main") if repo_details else "main"
+        default_branch = (
+            repo_details.get("default_branch", "main") if repo_details else "main"
+        )
 
         # 2. Fetch File Tree
         tree_res = client._get(
             f"https://api.github.com/repos/{repository.full_name}/git/trees/{default_branch}?recursive=1"
         )
         if not tree_res:
-            tree_res = client._get(f"https://api.github.com/repos/{repository.full_name}/git/trees/{default_branch}")
+            tree_res = client._get(
+                f"https://api.github.com/repos/{repository.full_name}/git/trees/{default_branch}"
+            )
 
         tree_data = tree_res if tree_res else {}
         tree_nodes = tree_data.get("tree", [])
         file_list = [t["path"] for t in tree_nodes if t["type"] == "blob"][:80]
 
         if not file_list:
-            logger.warning(f"No files found for {repository.full_name} on {default_branch}")
+            logger.warning(
+                f"No files found for {repository.full_name} on {default_branch}"
+            )
 
         # 3. Fetch Content of Key Files
-        key_files = ["package.json", "requirements.txt", "Dockerfile", "docker-compose.yml", "README.md"]
+        key_files = [
+            "package.json",
+            "requirements.txt",
+            "Dockerfile",
+            "docker-compose.yml",
+            "README.md",
+        ]
         file_contents = {}
         for kf in key_files:
             try:
@@ -98,7 +110,9 @@ def perform_deep_audit(repository, token):
 
     except Exception as e:
         if "429" in str(e):
-            logger.warning(f"Groq Rate Limit hit for {repository.full_name}, re-raising for retry.")
+            logger.warning(
+                f"Groq Rate Limit hit for {repository.full_name}, re-raising for retry."
+            )
             raise e
         else:
             logger.error(f"Deep Audit error for {repository.full_name}: {e}")

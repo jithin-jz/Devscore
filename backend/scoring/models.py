@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 class ScoreBreakdown(models.Model):
     """Individual category scores for a user."""
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="score_breakdown")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="score_breakdown"
+    )
     engineering_depth = models.FloatField(default=0.0)
     collaboration = models.FloatField(default=0.0)
     discipline = models.FloatField(default=0.0)
@@ -30,7 +32,9 @@ class ScoreBreakdown(models.Model):
 class ScoreHistory(models.Model):
     """Historical score snapshots for trend tracking."""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="score_history")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="score_history"
+    )
     score = models.FloatField()
     breakdown_snapshot = models.JSONField(default=dict)
     created_at = models.DateTimeField(auto_now_add=True)

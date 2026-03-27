@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddIndex(
             model_name="scorehistory",
-            index=models.Index(fields=["user", "-created_at"], name="score_user_created_idx"),
+            index=models.Index(
+                fields=["user", "-created_at"], name="score_user_created_idx"
+            ),
         ),
     ]

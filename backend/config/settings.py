@@ -4,15 +4,16 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config("DJANGO_SECRET_KEY", default="dev-insecure-key-change-in-production")
+SECRET_KEY = config(
+    "DJANGO_SECRET_KEY", default="dev-insecure-key-change-in-production"
+)
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = config(
-    "DJANGO_ALLOWED_HOSTS", 
-    default="localhost,127.0.0.1,wee-keriann-jithins-99cd75e0.koyeb.app"
+    "DJANGO_ALLOWED_HOSTS",
+    default="localhost,127.0.0.1,wee-keriann-jithins-99cd75e0.koyeb.app",
 ).split(",")
 
 INSTALLED_APPS = [
-    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -31,13 +32,12 @@ INSTALLED_APPS = [
     "recs",
     "badges",
     "analytics",
-    "channels",
 ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware", # Production static files
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Production static files
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -65,17 +65,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-ASGI_APPLICATION = "config.asgi.application"
-
-# WebSockets / Channels
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [config("REDIS_URL", default="redis://redis:6379/1")],
-        },
-    },
-}
 
 # Database
 DATABASES = {
@@ -91,7 +80,9 @@ DATABASES = {
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -171,8 +162,8 @@ CORS_ALLOW_CREDENTIALS = True
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = config(
-    "CSRF_TRUSTED_ORIGINS", 
-    default="http://localhost:5173,https://devscores.vercel.app,https://devscore.vercel.app"
+    "CSRF_TRUSTED_ORIGINS",
+    default="http://localhost:5173,https://devscores.vercel.app,https://devscore.vercel.app",
 ).split(",")
 
 # GitHub OAuth
@@ -186,34 +177,12 @@ FERNET_KEY = config("FERNET_KEY", default="")
 FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:5173")
 BACKEND_URL = config("BACKEND_URL", default="http://localhost:8000")
 
-# Cache
-REDIS_URL = config("REDIS_URL", default=None)
-if REDIS_URL:
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": REDIS_URL,
-        }
+# Cache (in-memory, per-process)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [REDIS_URL],
-            },
-        },
-    }
-else:
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        }
-    }
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels.layers.InMemoryChannelLayer",
-        },
-    }
+}
 # Groq AI
 GROQ_API_KEY = config("GROQ_API_KEY", default="")
 

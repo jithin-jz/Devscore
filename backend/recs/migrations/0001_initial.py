@@ -17,7 +17,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Recommendation",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "category",
                     models.CharField(
@@ -36,7 +44,11 @@ class Migration(migrations.Migration):
                 (
                     "priority",
                     models.CharField(
-                        choices=[("high", "High"), ("medium", "Medium"), ("low", "Low")],
+                        choices=[
+                            ("high", "High"),
+                            ("medium", "Medium"),
+                            ("low", "Low"),
+                        ],
                         default="medium",
                         max_length=10,
                     ),

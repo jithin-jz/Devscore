@@ -6,13 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_add_profile_indexes'),
+        ("users", "0003_add_profile_indexes"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='developerprofile',
-            name='tier',
-            field=models.CharField(choices=[('baseline', 'Baseline'), ('proficient', 'Proficient'), ('advanced', 'Advanced'), ('architect', 'Architect'), ('principal', 'Principal')], default='baseline', max_length=20),
+            model_name="developerprofile",
+            name="tier",
+            field=models.CharField(
+                choices=[
+                    ("baseline", "Baseline"),
+                    ("proficient", "Proficient"),
+                    ("advanced", "Advanced"),
+                    ("architect", "Architect"),
+                    ("principal", "Principal"),
+                ],
+                default="baseline",
+                max_length=20,
+            ),
         ),
     ]

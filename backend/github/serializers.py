@@ -5,7 +5,14 @@ from .models import Repository, RepositoryAudit
 class RepositoryAuditSerializer(serializers.ModelSerializer):
     class Meta:
         model = RepositoryAudit
-        fields = ["summary", "strengths", "weaknesses", "suggestions", "architecture_score", "audited_at"]
+        fields = [
+            "summary",
+            "strengths",
+            "weaknesses",
+            "suggestions",
+            "architecture_score",
+            "audited_at",
+        ]
 
 
 class RepositorySerializer(serializers.ModelSerializer):

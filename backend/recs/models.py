@@ -23,7 +23,9 @@ class Recommendation(models.Model):
     category = models.CharField(max_length=30, choices=CATEGORY_CHOICES)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default="medium")
+    priority = models.CharField(
+        max_length=10, choices=PRIORITY_CHOICES, default="medium"
+    )
     action_url = models.URLField(blank=True, default="")
     is_resolved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -61,7 +63,9 @@ class TechRecommendation(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     reason = models.TextField()
     learning_resources = models.JSONField(default=dict)
-    priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default="medium")
+    priority = models.CharField(
+        max_length=10, choices=PRIORITY_CHOICES, default="medium"
+    )
     career_impact = models.TextField(blank=True, default="")
     is_dismissed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,7 +73,9 @@ class TechRecommendation(models.Model):
     class Meta:
         ordering = ["priority", "-created_at"]
         indexes = [
-            models.Index(fields=["user", "is_dismissed"], name="tech_user_dismissed_idx"),
+            models.Index(
+                fields=["user", "is_dismissed"], name="tech_user_dismissed_idx"
+            ),
             models.Index(fields=["user", "-created_at"], name="tech_user_created_idx"),
         ]
 

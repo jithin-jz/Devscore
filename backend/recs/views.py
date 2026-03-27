@@ -28,7 +28,9 @@ def recs_list(request):
 @permission_classes([IsAuthenticated])
 def tech_recs_list(request):
     """Get current tech recommendations for authenticated user."""
-    recs = TechRecommendation.objects.filter(user=request.user, is_dismissed=False).only(
+    recs = TechRecommendation.objects.filter(
+        user=request.user, is_dismissed=False
+    ).only(
         "id",
         "technology",
         "category",

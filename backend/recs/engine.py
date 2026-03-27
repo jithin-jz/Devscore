@@ -108,19 +108,19 @@ def generate_tech_recs(score_breakdown, repos, username, tier):
 
         # Extract current languages from repos
         languages = list(set(r.primary_language for r in repos if r.primary_language))
-        
+
         # Identify gaps from score breakdown
         gaps = []
         if score_breakdown:
-            if score_breakdown.get('discipline', 0) < 40:
+            if score_breakdown.get("discipline", 0) < 40:
                 gaps.append("testing/quality assurance")
-            if score_breakdown.get('engineering_depth', 0) < 40:
+            if score_breakdown.get("engineering_depth", 0) < 40:
                 gaps.append("system design/architecture")
-            if score_breakdown.get('collaboration', 0) < 40:
+            if score_breakdown.get("collaboration", 0) < 40:
                 gaps.append("team collaboration/code reviews")
-            if score_breakdown.get('consistency', 0) < 40:
+            if score_breakdown.get("consistency", 0) < 40:
                 gaps.append("consistent coding habits")
-            if score_breakdown.get('oss_impact', 0) < 40:
+            if score_breakdown.get("oss_impact", 0) < 40:
                 gaps.append("open source contributions")
 
         # Identify missing repo features

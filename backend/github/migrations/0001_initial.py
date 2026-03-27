@@ -17,7 +17,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="ContributionMetrics",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("total_commits", models.IntegerField(default=0)),
                 ("pr_opened", models.IntegerField(default=0)),
                 ("pr_merged", models.IntegerField(default=0)),
@@ -44,11 +52,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Repository",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("name", models.CharField(max_length=255)),
                 ("full_name", models.CharField(max_length=500)),
                 ("description", models.TextField(blank=True, default="")),
-                ("primary_language", models.CharField(blank=True, default="", max_length=100)),
+                (
+                    "primary_language",
+                    models.CharField(blank=True, default="", max_length=100),
+                ),
                 ("stars", models.IntegerField(default=0)),
                 ("forks", models.IntegerField(default=0)),
                 ("is_fork", models.BooleanField(default=False)),

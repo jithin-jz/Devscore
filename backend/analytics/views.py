@@ -38,7 +38,9 @@ def trigger_analysis(request):
 @permission_classes([IsAuthenticated])
 def analysis_status(request):
     """Get the current analysis pipeline status."""
-    profile = DeveloperProfile.objects.only("analysis_status", "last_analyzed").get(user=request.user)
+    profile = DeveloperProfile.objects.only("analysis_status", "last_analyzed").get(
+        user=request.user
+    )
     return Response(
         {
             "status": profile.analysis_status,

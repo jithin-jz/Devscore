@@ -30,5 +30,7 @@ def score_detail(request):
 @permission_classes([IsAuthenticated])
 def score_history(request):
     """Get historical score entries for authenticated user."""
-    history = ScoreHistory.objects.filter(user=request.user).only("score", "breakdown_snapshot", "created_at")[:50]
+    history = ScoreHistory.objects.filter(user=request.user).only(
+        "score", "breakdown_snapshot", "created_at"
+    )[:50]
     return Response(ScoreHistorySerializer(history, many=True).data)

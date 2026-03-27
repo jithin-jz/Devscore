@@ -27,4 +27,11 @@ class ProfileSerializer(serializers.ModelSerializer):
             "created_at",
             "is_admin",
         ]
-        read_only_fields = ["github_username", "dev_score", "tier", "analysis_status", "last_analyzed", "created_at"]
+        read_only_fields = [
+            "github_username",
+            "dev_score",
+            "tier",
+            "analysis_status",
+            "last_analyzed",
+            "created_at",
+        ]

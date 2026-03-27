@@ -48,7 +48,9 @@ def audit_repository(request, repo_id):
     try:
         repo = Repository.objects.get(id=repo_id, user=request.user)
     except Repository.DoesNotExist:
-        return Response({"error": "Repository not found."}, status=status.HTTP_404_NOT_FOUND)
+        return Response(
+            {"error": "Repository not found."}, status=status.HTTP_404_NOT_FOUND
+        )
 
     deep_audit_repository(repo.id)
     return Response({"status": "Audit pipeline started."})

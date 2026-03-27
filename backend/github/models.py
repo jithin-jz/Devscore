@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 class Repository(models.Model):
     """Represents a GitHub repository belonging to a user."""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="repositories")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="repositories"
+    )
     name = models.CharField(max_length=255)
     full_name = models.CharField(max_length=500)
     description = models.TextField(blank=True, default="")
@@ -30,7 +32,9 @@ class Repository(models.Model):
         ordering = ["-stars"]
         indexes = [
             models.Index(fields=["user", "-stars"], name="repo_user_stars_idx"),
-            models.Index(fields=["user", "repo_updated_at"], name="repo_user_updated_idx"),
+            models.Index(
+                fields=["user", "repo_updated_at"], name="repo_user_updated_idx"
+            ),
             models.Index(fields=["user", "analyzed_at"], name="repo_user_analyzed_idx"),
         ]
 
@@ -41,7 +45,9 @@ class Repository(models.Model):
 class ContributionMetrics(models.Model):
     """Aggregated contribution metrics for a user."""
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="contribution_metrics")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="contribution_metrics"
+    )
     total_commits = models.IntegerField(default=0)
     pr_opened = models.IntegerField(default=0)
     pr_merged = models.IntegerField(default=0)
@@ -63,9 +69,13 @@ class ContributionMetrics(models.Model):
 class RepositoryAudit(models.Model):
     """Deep AI-driven architectural analysis of a repository."""
 
-    repository = models.OneToOneField(Repository, on_delete=models.CASCADE, related_name="audit")
+    repository = models.OneToOneField(
+        Repository, on_delete=models.CASCADE, related_name="audit"
+    )
     summary = models.TextField()
-    strengths = models.JSONField(default=list)  # List of dicts: { "title": "...", "description": "..." }
+    strengths = models.JSONField(
+        default=list
+    )  # List of dicts: { "title": "...", "description": "..." }
     weaknesses = models.JSONField(default=list)
     suggestions = models.JSONField(default=list)
     architecture_score = models.IntegerField(default=0)  # 0-100

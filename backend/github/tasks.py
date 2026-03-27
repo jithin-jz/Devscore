@@ -63,8 +63,12 @@ def fetch_repositories(user_id):
                     "is_fork": repo_data.get("fork", False),
                     "size_kb": repo_data.get("size", 0),
                     "open_issues_count": repo_data.get("open_issues_count", 0),
-                    "repo_created_at": _parse_github_datetime(repo_data.get("created_at")),
-                    "repo_updated_at": _parse_github_datetime(repo_data.get("updated_at")),
+                    "repo_created_at": _parse_github_datetime(
+                        repo_data.get("created_at")
+                    ),
+                    "repo_updated_at": _parse_github_datetime(
+                        repo_data.get("updated_at")
+                    ),
                 }
             )
 
@@ -145,7 +149,9 @@ def fetch_contribution_metrics(user_id):
         issues_closed = 0
         external = 0
         active_dates = set()
-        user_repos = set(Repository.objects.filter(user=user).values_list("full_name", flat=True))
+        user_repos = set(
+            Repository.objects.filter(user=user).values_list("full_name", flat=True)
+        )
 
         for event in events:
             event_type = event.get("type")
@@ -164,7 +170,9 @@ def fetch_contribution_metrics(user_id):
                     pr_opened += 1
                     if repo_name not in user_repos:
                         external += 1
-                elif action == "closed" and event.get("payload", {}).get("pull_request", {}).get("merged"):
+                elif action == "closed" and event.get("payload", {}).get(
+                    "pull_request", {}
+                ).get("merged"):
                     pr_merged += 1
             elif event_type == "IssuesEvent":
                 action = event.get("payload", {}).get("action")
@@ -233,7 +241,8 @@ def analyze_all_repos_task(user_id):
         if max_repos_per_run > 0 and len(stale_repos) > max_repos_per_run:
             stale_repos = sorted(
                 stale_repos,
-                key=lambda repo: repo.repo_updated_at or datetime.min.replace(tzinfo=timezone.utc),
+                key=lambda repo: repo.repo_updated_at
+                or datetime.min.replace(tzinfo=timezone.utc),
                 reverse=True,
             )[:max_repos_per_run]
 
@@ -251,7 +260,14 @@ def analyze_all_repos_task(user_id):
             if updated_repos:
                 Repository.objects.bulk_update(
                     updated_repos,
-                    ["has_ci", "has_tests", "has_docker", "has_lint", "has_types", "analyzed_at"],
+                    [
+                        "has_ci",
+                        "has_tests",
+                        "has_docker",
+                        "has_lint",
+                        "has_types",
+                        "analyzed_at",
+                    ],
                     batch_size=100,
                 )
 
@@ -270,6 +286,7 @@ def analyze_all_repos_task(user_id):
 
         # Trigger next step: scoring
         from scoring.tasks import calculate_user_score
+
         calculate_user_score(user_id)
 
     except Exception as exc:
@@ -285,7 +302,16 @@ def _perform_repo_analysis(repo_id):
 
         features = client.detect_repo_features(repo.full_name)
         _apply_repo_features(repo, features, datetime.now(timezone.utc))
-        repo.save(update_fields=["has_ci", "has_tests", "has_docker", "has_lint", "has_types", "analyzed_at"])
+        repo.save(
+            update_fields=[
+                "has_ci",
+                "has_tests",
+                "has_docker",
+                "has_lint",
+                "has_types",
+                "analyzed_at",
+            ]
+        )
 
         logger.info(f"Analyzed repo {repo.full_name}")
 

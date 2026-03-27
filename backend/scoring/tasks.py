@@ -15,7 +15,6 @@ from .engine import (
     calculate_oss_impact,
     calculate_dev_score,
 )
-from users.utils import broadcast_leaderboard
 
 logger = logging.getLogger(__name__)
 
@@ -80,18 +79,17 @@ def calculate_user_score(user_id):
         profile.tier = DeveloperProfile.compute_tier(final_score)
         profile.last_analyzed = datetime.now(timezone.utc)
         profile.analysis_status = "complete"
-        profile.save(update_fields=["dev_score", "tier", "last_analyzed", "analysis_status"])
+        profile.save(
+            update_fields=["dev_score", "tier", "last_analyzed", "analysis_status"]
+        )
 
-        # Broadcast the new leaderboard via WebSockets
-        try:
-            broadcast_leaderboard()
-        except Exception as e:
-            logger.error(f"Failed to broadcast leaderboard: {e}")
-
-        logger.info(f"Calculated DevScore for {user.username}: {final_score} ({profile.tier})")
+        logger.info(
+            f"Calculated DevScore for {user.username}: {final_score} ({profile.tier})"
+        )
 
         # Trigger recommendations engine
         from recs.tasks import generate_recs, generate_tech_recs_task
+
         generate_recs(user_id, schedule=1)
         generate_tech_recs_task(user_id, schedule=1)
 

@@ -136,7 +136,11 @@ class GitHubClient:
         tree_nodes = tree_data.get("tree", [])
 
         if tree_nodes:
-            all_paths = [str(node.get("path", "")).strip("/").lower() for node in tree_nodes if node.get("path")]
+            all_paths = [
+                str(node.get("path", "")).strip("/").lower()
+                for node in tree_nodes
+                if node.get("path")
+            ]
             root_entries = {path.split("/", 1)[0] for path in all_paths}
             root_files = {entry for entry in root_entries if entry}
 
@@ -148,7 +152,10 @@ class GitHubClient:
             )
 
             features["has_tests"] = (
-                any(entry in {"tests", "test", "__tests__", "spec"} for entry in root_entries)
+                any(
+                    entry in {"tests", "test", "__tests__", "spec"}
+                    for entry in root_entries
+                )
                 or any(entry.startswith("test_") for entry in root_entries)
                 or "pytest.ini" in root_files
                 or "jest.config.js" in root_files
@@ -180,7 +187,15 @@ class GitHubClient:
 
         # Fallback if tree API fails/rate-limits.
         ci_paths = [".github/workflows", ".circleci", ".travis.yml", "Jenkinsfile"]
-        test_paths = ["tests", "test", "__tests__", "spec", "test_", "pytest.ini", "jest.config.js"]
+        test_paths = [
+            "tests",
+            "test",
+            "__tests__",
+            "spec",
+            "test_",
+            "pytest.ini",
+            "jest.config.js",
+        ]
         docker_paths = ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"]
         lint_paths = [
             ".eslintrc",

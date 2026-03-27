@@ -12,18 +12,26 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddIndex(
             model_name="recommendation",
-            index=models.Index(fields=["user", "is_resolved"], name="recs_user_res_idx"),
+            index=models.Index(
+                fields=["user", "is_resolved"], name="recs_user_res_idx"
+            ),
         ),
         migrations.AddIndex(
             model_name="recommendation",
-            index=models.Index(fields=["user", "-created_at"], name="recs_user_created_idx"),
+            index=models.Index(
+                fields=["user", "-created_at"], name="recs_user_created_idx"
+            ),
         ),
         migrations.AddIndex(
             model_name="techrecommendation",
-            index=models.Index(fields=["user", "is_dismissed"], name="tech_user_dismissed_idx"),
+            index=models.Index(
+                fields=["user", "is_dismissed"], name="tech_user_dismissed_idx"
+            ),
         ),
         migrations.AddIndex(
             model_name="techrecommendation",
-            index=models.Index(fields=["user", "-created_at"], name="tech_user_created_idx"),
+            index=models.Index(
+                fields=["user", "-created_at"], name="tech_user_created_idx"
+            ),
         ),
     ]

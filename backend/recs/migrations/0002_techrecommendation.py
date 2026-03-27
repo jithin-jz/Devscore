@@ -8,27 +8,65 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recs', '0001_initial'),
+        ("recs", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TechRecommendation',
+            name="TechRecommendation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('technology', models.CharField(max_length=100)),
-                ('category', models.CharField(choices=[('language', 'Language'), ('framework', 'Framework'), ('tool', 'Tool'), ('cloud', 'Cloud'), ('practice', 'Practice')], max_length=20)),
-                ('reason', models.TextField()),
-                ('learning_resources', models.JSONField(default=dict)),
-                ('priority', models.CharField(choices=[('high', 'High'), ('medium', 'Medium'), ('low', 'Low')], default='medium', max_length=10)),
-                ('career_impact', models.TextField(blank=True, default='')),
-                ('is_dismissed', models.BooleanField(default=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tech_recs', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("technology", models.CharField(max_length=100)),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("language", "Language"),
+                            ("framework", "Framework"),
+                            ("tool", "Tool"),
+                            ("cloud", "Cloud"),
+                            ("practice", "Practice"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("reason", models.TextField()),
+                ("learning_resources", models.JSONField(default=dict)),
+                (
+                    "priority",
+                    models.CharField(
+                        choices=[
+                            ("high", "High"),
+                            ("medium", "Medium"),
+                            ("low", "Low"),
+                        ],
+                        default="medium",
+                        max_length=10,
+                    ),
+                ),
+                ("career_impact", models.TextField(blank=True, default="")),
+                ("is_dismissed", models.BooleanField(default=False)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tech_recs",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['priority', '-created_at'],
+                "ordering": ["priority", "-created_at"],
             },
         ),
     ]
