@@ -37,7 +37,9 @@ export default function AdminLogin() {
                     <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto border border-ds-border shadow-[0_0_30px_rgba(255,255,255,0.05)]">
                         <Shield className="text-white w-8 h-8" />
                     </div>
-                    <h1 className="text-2xl font-black uppercase tracking-tighter">Command Center</h1>
+                    <h1 className="text-2xl font-black uppercase tracking-tighter">
+                        Command Center
+                    </h1>
                     <p className="ds-label opacity-70">Secured Access Only</p>
                 </div>
 
@@ -54,7 +56,7 @@ export default function AdminLogin() {
                             <input
                                 type="text"
                                 value={username}
-                                onChange={e => setUsername(e.target.value)}
+                                onChange={(e) => setUsername(e.target.value)}
                                 className="w-full bg-black/50 border border-ds-border rounded-lg px-4 py-3 text-white text-sm outline-none focus:border-white transition-colors"
                                 required
                             />
@@ -65,7 +67,7 @@ export default function AdminLogin() {
                             <input
                                 type="password"
                                 value={password}
-                                onChange={e => setPassword(e.target.value)}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className="w-full bg-black/50 border border-ds-border rounded-lg px-4 py-3 text-white text-sm outline-none focus:border-white transition-colors"
                                 required
                             />

@@ -1,38 +1,35 @@
-import { forwardRef, useImperativeHandle, useCallback } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle, useCallback } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const TriangleAlertIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = useCallback(async () => {
             await animate(
-                ".triangle",
+                '.triangle',
                 {
                     y: [0, -1.5, 0],
                 },
                 {
                     duration: 0.25,
-                    ease: "easeOut",
-                },
+                    ease: 'easeOut',
+                }
             );
 
             animate(
-                ".exclamation-line",
+                '.exclamation-line',
                 {
                     scaleY: [1, 1.35, 1],
                 },
                 {
                     duration: 0.3,
-                    ease: "easeOut",
-                },
+                    ease: 'easeOut',
+                }
             );
 
             animate(
-                ".exclamation-dot",
+                '.exclamation-dot',
                 {
                     scale: [1, 1.4, 1],
                     opacity: [1, 0.6, 1],
@@ -40,22 +37,18 @@ const TriangleAlertIcon = forwardRef(
                 {
                     duration: 0.25,
                     delay: 0.05,
-                    ease: "easeOut",
-                },
+                    ease: 'easeOut',
+                }
             );
         }, [animate]);
 
         const stop = useCallback(() => {
-            animate(".triangle", { y: 0 }, { duration: 0.2, ease: "easeOut" });
+            animate('.triangle', { y: 0 }, { duration: 0.2, ease: 'easeOut' });
+            animate('.exclamation-line', { scaleY: 1 }, { duration: 0.2, ease: 'easeOut' });
             animate(
-                ".exclamation-line",
-                { scaleY: 1 },
-                { duration: 0.2, ease: "easeOut" },
-            );
-            animate(
-                ".exclamation-dot",
+                '.exclamation-dot',
                 { scale: 1, opacity: 1 },
-                { duration: 0.2, ease: "easeOut" },
+                { duration: 0.2, ease: 'easeOut' }
             );
         }, [animate]);
 
@@ -89,18 +82,18 @@ const TriangleAlertIcon = forwardRef(
                     <motion.path
                         className="exclamation-line"
                         d="M12 9v4"
-                        style={{ transformOrigin: "12px 11px" }}
+                        style={{ transformOrigin: '12px 11px' }}
                     />
                     <motion.path
                         className="exclamation-dot"
                         d="M12 17h.01"
-                        style={{ transformOrigin: "12px 17px" }}
+                        style={{ transformOrigin: '12px 17px' }}
                     />
                 </g>
             </motion.svg>
         );
-    },
+    }
 );
 
-TriangleAlertIcon.displayName = "TriangleAlertIcon";
+TriangleAlertIcon.displayName = 'TriangleAlertIcon';
 export default TriangleAlertIcon;

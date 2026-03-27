@@ -1,38 +1,35 @@
-import { forwardRef, useImperativeHandle, useCallback } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle, useCallback } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const MailFilledIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = useCallback(async () => {
             await animate(
-                ".mail-open",
+                '.mail-open',
                 {
                     rotateX: -60,
-                    transformOrigin: "50% 0%",
+                    transformOrigin: '50% 0%',
                 },
                 {
                     duration: 0.5,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
         }, [animate]);
 
         const stop = useCallback(() => {
             animate(
-                ".mail-open",
+                '.mail-open',
                 {
                     rotateX: 0,
-                    transformOrigin: "50% 0%",
+                    transformOrigin: '50% 0%',
                 },
                 {
                     duration: 0.5,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
         }, [animate]);
 
@@ -62,8 +59,8 @@ const MailFilledIcon = forwardRef(
                 <motion.path d="M3 7l9 6l9 -6" className="mail-open" />
             </motion.svg>
         );
-    },
+    }
 );
 
-MailFilledIcon.displayName = "MailFilledIcon";
+MailFilledIcon.displayName = 'MailFilledIcon';
 export default MailFilledIcon;

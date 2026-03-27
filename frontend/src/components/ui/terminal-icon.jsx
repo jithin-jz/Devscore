@@ -1,37 +1,22 @@
-import { forwardRef, useImperativeHandle, useCallback } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle, useCallback } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const TerminalIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = useCallback(async () => {
             animate(
-                ".cursor-line",
+                '.cursor-line',
                 { opacity: [1, 0, 1, 0, 1] },
-                { duration: 0.8, ease: "easeInOut" },
+                { duration: 0.8, ease: 'easeInOut' }
             );
-            animate(
-                ".terminal-chevron",
-                { x: [0, 2, 0] },
-                { duration: 0.3, ease: "easeInOut" },
-            );
+            animate('.terminal-chevron', { x: [0, 2, 0] }, { duration: 0.3, ease: 'easeInOut' });
         }, [animate]);
 
         const stop = useCallback(() => {
-            animate(
-                ".cursor-line",
-                { opacity: 1 },
-                { duration: 0.2, ease: "easeOut" },
-            );
-            animate(
-                ".terminal-chevron",
-                { x: 0 },
-                { duration: 0.2, ease: "easeOut" },
-            );
+            animate('.cursor-line', { opacity: 1 }, { duration: 0.2, ease: 'easeOut' });
+            animate('.terminal-chevron', { x: 0 }, { duration: 0.2, ease: 'easeOut' });
         }, [animate]);
 
         useImperativeHandle(ref, () => ({
@@ -60,8 +45,8 @@ const TerminalIcon = forwardRef(
                 <motion.path className="cursor-line" d="M12 19l7 0" />
             </motion.svg>
         );
-    },
+    }
 );
 
-TerminalIcon.displayName = "TerminalIcon";
+TerminalIcon.displayName = 'TerminalIcon';
 export default TerminalIcon;

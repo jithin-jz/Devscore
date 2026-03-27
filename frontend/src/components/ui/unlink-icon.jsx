@@ -1,90 +1,79 @@
-import { forwardRef, useImperativeHandle, useCallback } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle, useCallback } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const UnlinkIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = useCallback(async () => {
             animate(
-                ".chain-left",
+                '.chain-left',
                 {
                     x: -3,
                     y: 3,
                 },
                 {
                     duration: 0.3,
-                    ease: "easeOut",
-                },
+                    ease: 'easeOut',
+                }
             );
 
             await animate(
-                ".chain-right",
+                '.chain-right',
                 {
                     x: 3,
                     y: -3,
                 },
                 {
                     duration: 0.3,
-                    ease: "easeOut",
-                },
+                    ease: 'easeOut',
+                }
             );
 
             animate(
-                ".break-indicator",
+                '.break-indicator',
                 {
                     scale: [1, 1.2, 1],
                     opacity: [1, 0.6, 1],
                 },
                 {
                     duration: 0.4,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
 
             animate(
-                ".chain-left",
+                '.chain-left',
                 {
                     x: 0,
                     y: 0,
                 },
                 {
                     duration: 0.3,
-                    ease: "easeIn",
-                },
+                    ease: 'easeIn',
+                }
             );
 
             animate(
-                ".chain-right",
+                '.chain-right',
                 {
                     x: 0,
                     y: 0,
                 },
                 {
                     duration: 0.3,
-                    ease: "easeIn",
-                },
+                    ease: 'easeIn',
+                }
             );
         }, [animate]);
 
         const stop = useCallback(() => {
+            animate('.chain-left', { x: 0, y: 0 }, { duration: 0.2, ease: 'easeOut' });
+            animate('.chain-right', { x: 0, y: 0 }, { duration: 0.2, ease: 'easeOut' });
             animate(
-                ".chain-left",
-                { x: 0, y: 0 },
-                { duration: 0.2, ease: "easeOut" },
-            );
-            animate(
-                ".chain-right",
-                { x: 0, y: 0 },
-                { duration: 0.2, ease: "easeOut" },
-            );
-            animate(
-                ".break-indicator",
+                '.break-indicator',
                 { scale: 1, opacity: 1 },
-                { duration: 0.2, ease: "easeOut" },
+                { duration: 0.2, ease: 'easeOut' }
             );
         }, [animate]);
 
@@ -127,8 +116,8 @@ const UnlinkIcon = forwardRef(
                 </motion.g>
             </motion.svg>
         );
-    },
+    }
 );
 
-UnlinkIcon.displayName = "UnlinkIcon";
+UnlinkIcon.displayName = 'UnlinkIcon';
 export default UnlinkIcon;

@@ -1,5 +1,11 @@
 import {
-    AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
 } from 'recharts';
 
 export default function HistoricalChart({ data }) {
@@ -14,7 +20,10 @@ export default function HistoricalChart({ data }) {
     }
 
     const chartData = [...data].reverse().map((entry) => ({
-        date: new Date(entry.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        date: new Date(entry.created_at).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+        }),
         score: entry.score,
     }));
 
@@ -28,7 +37,12 @@ export default function HistoricalChart({ data }) {
                             <stop offset="95%" stopColor="var(--ds-accent)" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--ds-border)" strokeOpacity={0.1} vertical={false} />
+                    <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="var(--ds-border)"
+                        strokeOpacity={0.1}
+                        vertical={false}
+                    />
                     <XAxis
                         dataKey="date"
                         tick={{ fill: 'var(--ds-muted)', fontSize: 8, fontWeight: 900 }}
@@ -48,8 +62,19 @@ export default function HistoricalChart({ data }) {
                             borderRadius: '4px',
                             padding: '8px',
                         }}
-                        itemStyle={{ color: 'var(--ds-text)', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}
-                        labelStyle={{ color: 'var(--ds-muted)', fontSize: '7px', fontWeight: '900', textTransform: 'uppercase', marginBottom: '4px' }}
+                        itemStyle={{
+                            color: 'var(--ds-text)',
+                            fontSize: '9px',
+                            fontWeight: '900',
+                            textTransform: 'uppercase',
+                        }}
+                        labelStyle={{
+                            color: 'var(--ds-muted)',
+                            fontSize: '7px',
+                            fontWeight: '900',
+                            textTransform: 'uppercase',
+                            marginBottom: '4px',
+                        }}
                     />
                     <Area
                         type="monotone"
@@ -58,7 +83,12 @@ export default function HistoricalChart({ data }) {
                         strokeWidth={2}
                         fillOpacity={1}
                         fill="url(#colorScore)"
-                        dot={{ fill: 'var(--ds-bg)', stroke: 'var(--ds-accent)', r: 2, strokeWidth: 1.5 }}
+                        dot={{
+                            fill: 'var(--ds-bg)',
+                            stroke: 'var(--ds-accent)',
+                            r: 2,
+                            strokeWidth: 1.5,
+                        }}
                         activeDot={{ r: 4, fill: 'var(--ds-accent)', stroke: 'var(--ds-bg)' }}
                     />
                 </AreaChart>

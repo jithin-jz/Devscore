@@ -36,7 +36,8 @@ export default function AdminDashboard() {
     }, [user]);
 
     const handleDeleteUser = async (userId, githubUsername) => {
-        if (!window.confirm(`Are you sure you want to permanently delete user ${githubUsername}?`)) return;
+        if (!window.confirm(`Are you sure you want to permanently delete user ${githubUsername}?`))
+            return;
 
         try {
             await adminDeleteUser(userId);
@@ -81,22 +82,25 @@ export default function AdminDashboard() {
                     <span className="text-[10px] font-black uppercase text-ds-brand tracking-widest border border-ds-brand/20 bg-ds-brand/10 px-3 py-1 rounded">
                         Admin Mode Active
                     </span>
-                    <button onClick={logout} className="btn-subtle text-[9px] py-1.5 px-4 text-ds-danger border-ds-danger/20 hover:bg-ds-danger/10">
+                    <button
+                        onClick={logout}
+                        className="btn-subtle text-[9px] py-1.5 px-4 text-ds-danger border-ds-danger/20 hover:bg-ds-danger/10"
+                    >
                         Exit
                     </button>
                 </div>
             </Navbar>
 
             <main className="max-w-[1500px] mx-auto w-full px-6 py-8 flex-1 flex flex-col gap-8 animate-premium-fade-in relative z-10">
-
-
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="ds-panel flex flex-col gap-4">
                         <div className="flex items-center justify-between opacity-50">
                             <span className="ds-label">Total Users</span>
                             <Users size={16} />
                         </div>
-                        <div className="text-4xl font-black text-white">{stats?.total_users || 0}</div>
+                        <div className="text-4xl font-black text-white">
+                            {stats?.total_users || 0}
+                        </div>
                     </div>
 
                     <div className="ds-panel flex flex-col gap-4">
@@ -104,7 +108,9 @@ export default function AdminDashboard() {
                             <span className="ds-label">Avg Platform Score</span>
                             <Target size={16} />
                         </div>
-                        <div className="text-4xl font-black text-ds-brand">{stats?.avg_score || 0}</div>
+                        <div className="text-4xl font-black text-ds-brand">
+                            {stats?.avg_score || 0}
+                        </div>
                     </div>
 
                     <div className="ds-panel flex flex-col gap-4">
@@ -112,7 +118,9 @@ export default function AdminDashboard() {
                             <span className="ds-label">Total Scans Conducted</span>
                             <Activity size={16} />
                         </div>
-                        <div className="text-4xl font-black text-white">{stats?.total_analyses || 0}</div>
+                        <div className="text-4xl font-black text-white">
+                            {stats?.total_analyses || 0}
+                        </div>
                     </div>
                 </div>
 
@@ -135,31 +143,52 @@ export default function AdminDashboard() {
                             </thead>
                             <tbody>
                                 {stats?.recent_users?.map((u) => (
-                                    <tr key={u.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors">
+                                    <tr
+                                        key={u.id}
+                                        className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors"
+                                    >
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <img src={u.avatar_url || 'https://github.com/ghost.png'} alt="" className="w-8 h-8 rounded border border-white/10" />
-                                                <span className="font-bold text-[12px] text-white uppercase tracking-tight">{u.github_username}</span>
+                                                <img
+                                                    src={
+                                                        u.avatar_url ||
+                                                        'https://github.com/ghost.png'
+                                                    }
+                                                    alt=""
+                                                    className="w-8 h-8 rounded border border-white/10"
+                                                />
+                                                <span className="font-bold text-[12px] text-white uppercase tracking-tight">
+                                                    {u.github_username}
+                                                </span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-[10px] text-ds-muted font-mono">{u.email}</td>
+                                        <td className="px-6 py-4 text-[10px] text-ds-muted font-mono">
+                                            {u.email}
+                                        </td>
                                         <td className="px-6 py-4">
                                             <span className="text-[9px] font-black uppercase tracking-widest text-ds-brand bg-ds-brand/10 px-2 py-1 rounded border border-ds-brand/20">
                                                 {u.tier}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 font-black text-[14px] text-white">{Math.round(u.dev_score || 0)}</td>
+                                        <td className="px-6 py-4 font-black text-[14px] text-white">
+                                            {Math.round(u.dev_score || 0)}
+                                        </td>
                                         <td className="px-6 py-4">
-                                            <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded border ${u.analysis_status === 'complete'
-                                                ? 'text-ds-success bg-ds-success/10 border-ds-success/20'
-                                                : u.analysis_status === 'failed'
-                                                    ? 'text-ds-danger bg-ds-danger/10 border-ds-danger/20'
-                                                    : 'text-ds-muted bg-white/5 border-white/10'
-                                                }`}>
+                                            <span
+                                                className={`text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded border ${
+                                                    u.analysis_status === 'complete'
+                                                        ? 'text-ds-success bg-ds-success/10 border-ds-success/20'
+                                                        : u.analysis_status === 'failed'
+                                                          ? 'text-ds-danger bg-ds-danger/10 border-ds-danger/20'
+                                                          : 'text-ds-muted bg-white/5 border-white/10'
+                                                }`}
+                                            >
                                                 {u.analysis_status || 'Pending'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-[10px] text-ds-muted font-mono">{new Date(u.created_at).toLocaleDateString()}</td>
+                                        <td className="px-6 py-4 text-[10px] text-ds-muted font-mono">
+                                            {new Date(u.created_at).toLocaleDateString()}
+                                        </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button
@@ -172,7 +201,12 @@ export default function AdminDashboard() {
                                                 </button>
                                                 {!u.is_admin && (
                                                     <button
-                                                        onClick={() => handleDeleteUser(u.id, u.github_username)}
+                                                        onClick={() =>
+                                                            handleDeleteUser(
+                                                                u.id,
+                                                                u.github_username
+                                                            )
+                                                        }
                                                         className="p-2 bg-ds-danger/10 text-ds-danger hover:bg-ds-danger hover:text-white rounded border border-ds-danger/20 transition-colors"
                                                         title="Delete User"
                                                     >
@@ -185,7 +219,10 @@ export default function AdminDashboard() {
                                 ))}
                                 {(!stats?.recent_users || stats.recent_users.length === 0) && (
                                     <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center text-ds-muted text-[10px] font-bold uppercase tracking-widest">
+                                        <td
+                                            colSpan="6"
+                                            className="px-6 py-12 text-center text-ds-muted text-[10px] font-bold uppercase tracking-widest"
+                                        >
                                             No users found.
                                         </td>
                                     </tr>
@@ -209,13 +246,28 @@ export default function AdminDashboard() {
 
                         <div className="space-y-8">
                             <header className="flex items-start gap-6 pb-6 border-b border-white/5">
-                                <img src={viewingUser.profile.avatar_url || 'https://github.com/ghost.png'} alt="" className="w-20 h-20 rounded-xl border border-white/10" />
+                                <img
+                                    src={
+                                        viewingUser.profile.avatar_url ||
+                                        'https://github.com/ghost.png'
+                                    }
+                                    alt=""
+                                    className="w-20 h-20 rounded-xl border border-white/10"
+                                />
                                 <div className="space-y-2">
-                                    <h2 className="text-2xl font-black uppercase tracking-tight text-white">{viewingUser.profile.github_username}</h2>
-                                    <p className="text-[11px] text-ds-muted font-mono">{viewingUser.profile.email}</p>
+                                    <h2 className="text-2xl font-black uppercase tracking-tight text-white">
+                                        {viewingUser.profile.github_username}
+                                    </h2>
+                                    <p className="text-[11px] text-ds-muted font-mono">
+                                        {viewingUser.profile.email}
+                                    </p>
                                     <div className="flex gap-3 pt-1 text-[9px] font-black uppercase tracking-widest">
-                                        <span className="text-ds-brand py-1 px-2 rounded bg-ds-brand/10 border border-ds-brand/20">Tier: {viewingUser.profile.tier}</span>
-                                        <span className="text-white py-1 px-2 rounded bg-white/5 border border-white/10">Score: {Math.round(viewingUser.profile.dev_score || 0)}</span>
+                                        <span className="text-ds-brand py-1 px-2 rounded bg-ds-brand/10 border border-ds-brand/20">
+                                            Tier: {viewingUser.profile.tier}
+                                        </span>
+                                        <span className="text-white py-1 px-2 rounded bg-white/5 border border-white/10">
+                                            Score: {Math.round(viewingUser.profile.dev_score || 0)}
+                                        </span>
                                     </div>
                                 </div>
                             </header>
@@ -226,33 +278,60 @@ export default function AdminDashboard() {
                                     {viewingUser.score ? (
                                         <div className="bg-black/50 p-6 rounded-xl border border-white/5">
                                             <div className="space-y-4">
-                                                {Object.entries(viewingUser.score).map(([key, val]) =>
-                                                    !['id', 'user', 'dev_score', 'tier', 'last_calculated', 'created_at'].includes(key) && typeof val === 'number' && (
-                                                        <div key={key} className="flex justify-between items-center">
-                                                            <span className="text-[10px] uppercase font-bold text-ds-muted tracking-widest">{key.replace('_', ' ')}</span>
-                                                            <span className="text-sm font-black text-white">{val.toFixed(1)}</span>
-                                                        </div>
-                                                    )
+                                                {Object.entries(viewingUser.score).map(
+                                                    ([key, val]) =>
+                                                        ![
+                                                            'id',
+                                                            'user',
+                                                            'dev_score',
+                                                            'tier',
+                                                            'last_calculated',
+                                                            'created_at',
+                                                        ].includes(key) &&
+                                                        typeof val === 'number' && (
+                                                            <div
+                                                                key={key}
+                                                                className="flex justify-between items-center"
+                                                            >
+                                                                <span className="text-[10px] uppercase font-bold text-ds-muted tracking-widest">
+                                                                    {key.replace('_', ' ')}
+                                                                </span>
+                                                                <span className="text-sm font-black text-white">
+                                                                    {val.toFixed(1)}
+                                                                </span>
+                                                            </div>
+                                                        )
                                                 )}
                                             </div>
                                         </div>
                                     ) : (
-                                        <p className="text-[10px] text-ds-muted uppercase tracking-widest">No score data available.</p>
+                                        <p className="text-[10px] text-ds-muted uppercase tracking-widest">
+                                            No score data available.
+                                        </p>
                                     )}
                                 </div>
 
                                 <div className="space-y-6">
                                     <h3 className="ds-label">Recent Recommendations</h3>
                                     <div className="space-y-3">
-                                        {viewingUser.recommendations && viewingUser.recommendations.length > 0 ? (
-                                            viewingUser.recommendations.slice(0, 3).map(rec => (
-                                                <div key={rec.id} className="p-4 bg-white/5 border border-white/10 rounded-lg">
-                                                    <h4 className="text-[11px] font-black uppercase tracking-tight text-white hover:text-ds-brand line-clamp-1">{rec.title}</h4>
-                                                    <p className="text-[9px] text-ds-muted mt-2 line-clamp-2 leading-relaxed">{rec.description}</p>
+                                        {viewingUser.recs && viewingUser.recs.length > 0 ? (
+                                            viewingUser.recs.slice(0, 3).map((rec) => (
+                                                <div
+                                                    key={rec.id}
+                                                    className="p-4 bg-white/5 border border-white/10 rounded-lg"
+                                                >
+                                                    <h4 className="text-[11px] font-black uppercase tracking-tight text-white hover:text-ds-brand line-clamp-1">
+                                                        {rec.title}
+                                                    </h4>
+                                                    <p className="text-[9px] text-ds-muted mt-2 line-clamp-2 leading-relaxed">
+                                                        {rec.description}
+                                                    </p>
                                                 </div>
                                             ))
                                         ) : (
-                                            <p className="text-[10px] text-ds-muted uppercase tracking-widest">No active recommendations.</p>
+                                            <p className="text-[10px] text-ds-muted uppercase tracking-widest">
+                                                No active recommendations.
+                                            </p>
                                         )}
                                     </div>
                                 </div>

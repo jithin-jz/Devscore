@@ -1,60 +1,57 @@
-import { forwardRef, useImperativeHandle } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const CheckedIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = async () => {
             await animate(
-                "svg",
+                'svg',
                 {
                     scale: 1.1,
                 },
                 {
                     duration: 0.1,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
             await animate(
-                ".check-icon",
+                '.check-icon',
                 {
                     pathLength: 0,
                 },
                 {
                     duration: 0.1,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
             await animate(
-                ".check-icon",
+                '.check-icon',
                 {
                     pathLength: 1,
                 },
                 {
                     duration: 0.4,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
 
             await animate(
-                "svg",
+                'svg',
                 {
                     scale: 1,
                 },
                 {
                     duration: 0.2,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
         };
 
         const stop = () => {
-            animate("svg", { scale: 1 }, { duration: 0.2 });
-            animate(".check-icon", { pathLength: 1 }, { duration: 0.2 });
+            animate('svg', { scale: 1 }, { duration: 0.2 });
+            animate('.check-icon', { pathLength: 1 }, { duration: 0.2 });
         };
 
         useImperativeHandle(ref, () => {
@@ -93,9 +90,9 @@ const CheckedIcon = forwardRef(
                 <motion.path d="M9 12l2 2l4 -4" className="check-icon" />
             </motion.svg>
         );
-    },
+    }
 );
 
-CheckedIcon.displayName = "CheckedIcon";
+CheckedIcon.displayName = 'CheckedIcon';
 
 export default CheckedIcon;

@@ -23,7 +23,11 @@ export default function ScoreBreakdownTable({ data }) {
                     const Icon = cat.icon;
 
                     return (
-                        <div key={cat.key} className="bg-ds-bg-subtle p-6 space-y-4 group animate-premium-fade-in" style={{ animationDelay: `${i * 0.05}s` }}>
+                        <div
+                            key={cat.key}
+                            className="bg-ds-bg-subtle p-6 space-y-4 group animate-premium-fade-in"
+                            style={{ animationDelay: `${i * 0.05}s` }}
+                        >
                             <div className="flex items-center justify-between">
                                 <div className="p-2.5 rounded bg-ds-accent/5 border border-ds-border text-ds-muted group-hover:text-ds-text transition-colors">
                                     <Icon size={18} />

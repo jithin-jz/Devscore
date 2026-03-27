@@ -30,14 +30,15 @@ export default function RadarChart({ data }) {
                     <PolarGrid stroke="var(--ds-border)" strokeOpacity={0.1} />
                     <PolarAngleAxis
                         dataKey="category"
-                        tick={{ fill: 'var(--ds-muted)', fontSize: 8, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                        tick={{
+                            fill: 'var(--ds-muted)',
+                            fontSize: 8,
+                            fontWeight: 900,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.1em',
+                        }}
                     />
-                    <PolarRadiusAxis
-                        angle={90}
-                        domain={[0, 100]}
-                        tick={false}
-                        axisLine={false}
-                    />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
                     {/* Market Baseline */}
                     <Radar
                         name="Market Baseline"
@@ -66,11 +67,15 @@ export default function RadarChart({ data }) {
             <div className="absolute bottom-2 left-2 flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                     <div className="w-2 h-0.5 bg-ds-accent" />
-                    <span className="text-[7px] font-black uppercase tracking-widest text-ds-accent">Identity Vector</span>
+                    <span className="text-[7px] font-black uppercase tracking-widest text-ds-accent">
+                        Identity Vector
+                    </span>
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="w-2 h-0.5 border-t border-ds-accent/20 border-dashed" />
-                    <span className="text-[7px] font-black uppercase tracking-widest text-ds-accent/30">Industry Baseline</span>
+                    <span className="text-[7px] font-black uppercase tracking-widest text-ds-accent/30">
+                        Industry Baseline
+                    </span>
                 </div>
             </div>
         </div>

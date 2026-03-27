@@ -1,52 +1,33 @@
-import { forwardRef, useImperativeHandle } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const BulbIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = async () => {
             await Promise.all([
-                animate(".ray-left", { opacity: 0 }, { duration: 0.1 }),
-                animate(".ray-top", { opacity: 0 }, { duration: 0.1 }),
-                animate(".ray-right", { opacity: 0 }, { duration: 0.1 }),
-                animate(".ray-top-left", { opacity: 0 }, { duration: 0.1 }),
-                animate(".ray-top-right", { opacity: 0 }, { duration: 0.1 }),
+                animate('.ray-left', { opacity: 0 }, { duration: 0.1 }),
+                animate('.ray-top', { opacity: 0 }, { duration: 0.1 }),
+                animate('.ray-right', { opacity: 0 }, { duration: 0.1 }),
+                animate('.ray-top-left', { opacity: 0 }, { duration: 0.1 }),
+                animate('.ray-top-right', { opacity: 0 }, { duration: 0.1 }),
             ]);
             await Promise.all([
-                animate(
-                    ".ray-left",
-                    { opacity: 1 },
-                    { duration: 0.4, ease: "easeOut" },
-                ),
-                animate(".ray-top", { opacity: 1 }, { duration: 0.4, ease: "easeOut" }),
-                animate(
-                    ".ray-right",
-                    { opacity: 1 },
-                    { duration: 0.4, ease: "easeOut" },
-                ),
-                animate(
-                    ".ray-top-left",
-                    { opacity: 1 },
-                    { duration: 0.4, ease: "easeOut" },
-                ),
-                animate(
-                    ".ray-top-right",
-                    { opacity: 1 },
-                    { duration: 0.4, ease: "easeOut" },
-                ),
+                animate('.ray-left', { opacity: 1 }, { duration: 0.4, ease: 'easeOut' }),
+                animate('.ray-top', { opacity: 1 }, { duration: 0.4, ease: 'easeOut' }),
+                animate('.ray-right', { opacity: 1 }, { duration: 0.4, ease: 'easeOut' }),
+                animate('.ray-top-left', { opacity: 1 }, { duration: 0.4, ease: 'easeOut' }),
+                animate('.ray-top-right', { opacity: 1 }, { duration: 0.4, ease: 'easeOut' }),
             ]);
         };
 
         const stop = () => {
-            animate(".ray-left", { opacity: 1 }, { duration: 0.2 });
-            animate(".ray-top", { opacity: 1 }, { duration: 0.2 });
-            animate(".ray-right", { opacity: 1 }, { duration: 0.2 });
-            animate(".ray-top-left", { opacity: 1 }, { duration: 0.2 });
-            animate(".ray-top-right", { opacity: 1 }, { duration: 0.2 });
+            animate('.ray-left', { opacity: 1 }, { duration: 0.2 });
+            animate('.ray-top', { opacity: 1 }, { duration: 0.2 });
+            animate('.ray-right', { opacity: 1 }, { duration: 0.2 });
+            animate('.ray-top-left', { opacity: 1 }, { duration: 0.2 });
+            animate('.ray-top-right', { opacity: 1 }, { duration: 0.2 });
         };
 
         useImperativeHandle(ref, () => {
@@ -128,9 +109,9 @@ const BulbIcon = forwardRef(
                 />
             </motion.svg>
         );
-    },
+    }
 );
 
-BulbIcon.displayName = "BulbIcon";
+BulbIcon.displayName = 'BulbIcon';
 
 export default BulbIcon;

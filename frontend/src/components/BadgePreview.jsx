@@ -45,14 +45,32 @@ export default function BadgePreview({ username, score = 0, tier = 'Baseline' })
                         x={label_width / 2}
                         y="18"
                         textAnchor="middle"
-                        style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif', fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', fill: '#A1A1AA' }}
-                    >GitProof</text>
+                        style={{
+                            fontFamily:
+                                '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+                            fontSize: '11px',
+                            fontWeight: '800',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
+                            fill: '#A1A1AA',
+                        }}
+                    >
+                        GitProof
+                    </text>
                     <text
                         x={label_width + score_width / 2}
                         y="19"
                         textAnchor="middle"
-                        style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif', fontSize: '12px', fontWeight: '700', fill: '#FFFFFF' }}
-                    >{score_text} • {tier}</text>
+                        style={{
+                            fontFamily:
+                                '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+                            fontSize: '12px',
+                            fontWeight: '700',
+                            fill: '#FFFFFF',
+                        }}
+                    >
+                        {score_text} • {tier}
+                    </text>
                 </svg>
             </div>
 

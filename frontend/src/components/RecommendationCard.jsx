@@ -6,9 +6,24 @@ import UnlinkIcon from './ui/unlink-icon';
 import SparklesIcon from './ui/sparkles-icon';
 
 const PRIORITY_STYLES = {
-    high: { bg: 'bg-ds-danger/10', text: 'text-ds-danger', border: 'border-ds-danger/20', label: 'CRITICAL' },
-    medium: { bg: 'bg-ds-warning/10', text: 'text-ds-warning', border: 'border-ds-warning/20', label: 'RECOMMENDED' },
-    low: { bg: 'bg-ds-accent/10', text: 'text-ds-accent', border: 'border-ds-accent/20', label: 'ENHANCEMENT' },
+    high: {
+        bg: 'bg-ds-danger/10',
+        text: 'text-ds-danger',
+        border: 'border-ds-danger/20',
+        label: 'CRITICAL',
+    },
+    medium: {
+        bg: 'bg-ds-warning/10',
+        text: 'text-ds-warning',
+        border: 'border-ds-warning/20',
+        label: 'RECOMMENDED',
+    },
+    low: {
+        bg: 'bg-ds-accent/10',
+        text: 'text-ds-accent',
+        border: 'border-ds-accent/20',
+        label: 'ENHANCEMENT',
+    },
 };
 
 const CATEGORIES = [
@@ -21,7 +36,7 @@ const CATEGORIES = [
 
 export default function RecommendationCard({ recommendation }) {
     const priority = PRIORITY_STYLES[recommendation.priority] || PRIORITY_STYLES.medium;
-    const category = CATEGORIES.find(cat => cat.key === recommendation.category);
+    const category = CATEGORIES.find((cat) => cat.key === recommendation.category);
     const Icon = category ? category.icon : Lightbulb;
 
     return (
@@ -32,10 +47,14 @@ export default function RecommendationCard({ recommendation }) {
                 </div>
                 <div className="flex-1 min-w-0 space-y-3">
                     <div className="flex items-center justify-between gap-2">
-                        <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${priority.border} ${priority.bg} ${priority.text}`}>
+                        <span
+                            className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${priority.border} ${priority.bg} ${priority.text}`}
+                        >
                             {priority.label}
                         </span>
-                        <span className="ds-label opacity-40">#{recommendation.category.slice(0, 3)}</span>
+                        <span className="ds-label opacity-40">
+                            #{recommendation.category.slice(0, 3)}
+                        </span>
                     </div>
 
                     <div className="space-y-1">

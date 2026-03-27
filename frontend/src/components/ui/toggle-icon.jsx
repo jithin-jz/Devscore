@@ -1,43 +1,36 @@
-import { forwardRef, useImperativeHandle, useCallback } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle, useCallback } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const ToggleIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = useCallback(async () => {
             await animate(
-                ".toggle-knob",
+                '.toggle-knob',
                 {
                     x: [0, 12],
                 },
                 {
                     duration: 0.4,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
             animate(
-                ".toggle-track",
+                '.toggle-track',
                 {
                     opacity: [1, 0.8, 1],
                 },
                 {
                     duration: 0.4,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
         }, [animate]);
 
         const stop = useCallback(() => {
-            animate(".toggle-knob", { x: 0 }, { duration: 0.2, ease: "easeOut" });
-            animate(
-                ".toggle-track",
-                { opacity: 1 },
-                { duration: 0.2, ease: "easeOut" },
-            );
+            animate('.toggle-knob', { x: 0 }, { duration: 0.2, ease: 'easeOut' });
+            animate('.toggle-track', { opacity: 1 }, { duration: 0.2, ease: 'easeOut' });
         }, [animate]);
 
         useImperativeHandle(ref, () => ({
@@ -71,12 +64,12 @@ const ToggleIcon = forwardRef(
                     cx="10"
                     cy="16"
                     r="5"
-                    style={{ transformOrigin: "10px 16px" }}
+                    style={{ transformOrigin: '10px 16px' }}
                 />
             </motion.svg>
         );
-    },
+    }
 );
 
-ToggleIcon.displayName = "ToggleIcon";
+ToggleIcon.displayName = 'ToggleIcon';
 export default ToggleIcon;

@@ -1,217 +1,217 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  /* Default Dark Industrial System Tokens */
-  --ds-bg: #000000;
-  --ds-bg-subtle: #050505;
-  --ds-card: #09090b;
-  --ds-border: rgba(255, 255, 255, 0.08);
-  --ds-border-subtle: rgba(255, 255, 255, 0.04);
-  --ds-accent: #ffffff;
-  --ds-accent-foreground: #000000;
-  --ds-muted: #a1a1aa;
-  --ds-text: #fafafa;
-  --ds-text-dim: #d4d4d8;
-  --ds-panel-bg: rgba(0, 0, 0, 0.4);
-  --ds-btn-premium-bg: #ffffff;
-  --ds-btn-premium-text: #000000;
-  --ds-btn-subtle-bg: rgba(255, 255, 255, 0.05);
-  --ds-dot-grid-color: rgba(255, 255, 255, 0.05);
-  --ds-scrollbar-bg: #000000;
-  --ds-scrollbar-thumb: rgba(255, 255, 255, 0.05);
+    /* Default Dark Industrial System Tokens */
+    --ds-bg: #000000;
+    --ds-bg-subtle: #050505;
+    --ds-card: #09090b;
+    --ds-border: rgba(255, 255, 255, 0.08);
+    --ds-border-subtle: rgba(255, 255, 255, 0.04);
+    --ds-accent: #ffffff;
+    --ds-accent-foreground: #000000;
+    --ds-muted: #a1a1aa;
+    --ds-text: #fafafa;
+    --ds-text-dim: #d4d4d8;
+    --ds-panel-bg: rgba(0, 0, 0, 0.4);
+    --ds-btn-premium-bg: #ffffff;
+    --ds-btn-premium-text: #000000;
+    --ds-btn-subtle-bg: rgba(255, 255, 255, 0.05);
+    --ds-dot-grid-color: rgba(255, 255, 255, 0.05);
+    --ds-scrollbar-bg: #000000;
+    --ds-scrollbar-thumb: rgba(255, 255, 255, 0.05);
 }
 
 .light {
-  /* Premium Industrial Light Mode System Tokens */
-  --ds-bg: #ffffff;
-  --ds-bg-subtle: #fafafa;
-  --ds-card: #f4f4f5;
-  --ds-border: rgba(0, 0, 0, 0.12);
-  --ds-border-subtle: rgba(0, 0, 0, 0.06);
-  --ds-accent: #000000;
-  --ds-accent-foreground: #ffffff;
-  --ds-muted: #52525b;
-  --ds-text: #09090b;
-  --ds-text-dim: #27272a;
-  --ds-panel-bg: rgba(0, 0, 0, 0.02);
-  --ds-btn-premium-bg: #000000;
-  --ds-btn-premium-text: #ffffff;
-  --ds-btn-subtle-bg: rgba(0, 0, 0, 0.04);
-  --ds-dot-grid-color: rgba(0, 0, 0, 0.08);
-  --ds-scrollbar-bg: #ffffff;
-  --ds-scrollbar-thumb: rgba(0, 0, 0, 0.1);
+    /* Premium Industrial Light Mode System Tokens */
+    --ds-bg: #ffffff;
+    --ds-bg-subtle: #fafafa;
+    --ds-card: #f4f4f5;
+    --ds-border: rgba(0, 0, 0, 0.12);
+    --ds-border-subtle: rgba(0, 0, 0, 0.06);
+    --ds-accent: #000000;
+    --ds-accent-foreground: #ffffff;
+    --ds-muted: #52525b;
+    --ds-text: #09090b;
+    --ds-text-dim: #27272a;
+    --ds-panel-bg: rgba(0, 0, 0, 0.02);
+    --ds-btn-premium-bg: #000000;
+    --ds-btn-premium-text: #ffffff;
+    --ds-btn-subtle-bg: rgba(0, 0, 0, 0.04);
+    --ds-dot-grid-color: rgba(0, 0, 0, 0.08);
+    --ds-scrollbar-bg: #ffffff;
+    --ds-scrollbar-thumb: rgba(0, 0, 0, 0.1);
 }
 
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Outfit', 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  /* DevScore Standard Industrial System Tokens - Ultra Refined */
-  --color-ds-bg: var(--ds-bg);
-  --color-ds-bg-subtle: var(--ds-bg-subtle);
-  --color-ds-card: var(--ds-card);
-  --color-ds-border: var(--ds-border);
-  --color-ds-border-subtle: var(--ds-border-subtle);
+    /* DevScore Standard Industrial System Tokens - Ultra Refined */
+    --color-ds-bg: var(--ds-bg);
+    --color-ds-bg-subtle: var(--ds-bg-subtle);
+    --color-ds-card: var(--ds-card);
+    --color-ds-border: var(--ds-border);
+    --color-ds-border-subtle: var(--ds-border-subtle);
 
-  --color-ds-accent: var(--ds-accent);
-  --color-ds-accent-foreground: var(--ds-accent-foreground);
+    --color-ds-accent: var(--ds-accent);
+    --color-ds-accent-foreground: var(--ds-accent-foreground);
 
-  --color-ds-muted: var(--ds-muted);
-  --color-ds-text: var(--ds-text);
-  --color-ds-text-dim: var(--ds-text-dim);
+    --color-ds-muted: var(--ds-muted);
+    --color-ds-text: var(--ds-text);
+    --color-ds-text-dim: var(--ds-text-dim);
 
-  --color-ds-panel-bg: var(--ds-panel-bg);
-  --color-ds-btn-premium-bg: var(--ds-btn-premium-bg);
-  --color-ds-btn-premium-text: var(--ds-btn-premium-text);
-  --color-ds-btn-subtle-bg: var(--ds-btn-subtle-bg);
+    --color-ds-panel-bg: var(--ds-panel-bg);
+    --color-ds-btn-premium-bg: var(--ds-btn-premium-bg);
+    --color-ds-btn-premium-text: var(--ds-btn-premium-text);
+    --color-ds-btn-subtle-bg: var(--ds-btn-subtle-bg);
 
-  --color-ds-brand: #3b82f6;
-  --color-ds-success: #10b981;
-  --color-ds-warning: #f59e0b;
-  --color-ds-danger: #ef4444;
+    --color-ds-brand: #3b82f6;
+    --color-ds-success: #10b981;
+    --color-ds-warning: #f59e0b;
+    --color-ds-danger: #ef4444;
 
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
 }
 
 @layer base {
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 
-  * {
-    @apply border-ds-border outline-none focus:outline-none focus-visible:outline-none;
-  }
+    * {
+        @apply border-ds-border outline-none focus:outline-none focus-visible:outline-none;
+    }
 
-  body {
-    @apply bg-ds-bg text-ds-text font-sans antialiased selection:bg-ds-brand/30 selection:text-white overflow-x-hidden text-[13px];
-  }
+    body {
+        @apply bg-ds-bg text-ds-text font-sans antialiased selection:bg-ds-brand/30 selection:text-white overflow-x-hidden text-[13px];
+    }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    @apply font-display tracking-tight text-ds-text uppercase;
-  }
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-display tracking-tight text-ds-text uppercase;
+    }
 }
 
 @layer utilities {
-  .ds-industrial-card {
-    @apply bg-ds-bg-subtle/50 border border-ds-border rounded-2xl relative overflow-hidden transition-all duration-300;
-  }
+    .ds-industrial-card {
+        @apply bg-ds-bg-subtle/50 border border-ds-border rounded-2xl relative overflow-hidden transition-all duration-300;
+    }
 
-  .ds-panel {
-    @apply bg-ds-panel-bg border border-ds-border rounded-xl px-5 py-4 relative transition-all duration-300 hover:border-ds-accent/20;
-  }
+    .ds-panel {
+        @apply bg-ds-panel-bg border border-ds-border rounded-xl px-5 py-4 relative transition-all duration-300 hover:border-ds-accent/20;
+    }
 
-  .ds-label {
-    @apply text-[9px] font-black uppercase tracking-[0.3em] text-ds-muted;
-  }
+    .ds-label {
+        @apply text-[9px] font-black uppercase tracking-[0.3em] text-ds-muted;
+    }
 
-  .ds-value {
-    @apply font-mono text-[11px] font-bold text-ds-text tracking-widest;
-  }
+    .ds-value {
+        @apply font-mono text-[11px] font-bold text-ds-text tracking-widest;
+    }
 
-  .glass-effect {
-    @apply backdrop-blur-md bg-white/[0.02] border border-white/[0.05];
-  }
+    .glass-effect {
+        @apply backdrop-blur-md bg-white/[0.02] border border-white/[0.05];
+    }
 
-  .btn-premium {
-    @apply px-5 py-2.5 bg-ds-btn-premium-bg text-ds-btn-premium-text font-black text-[10px] uppercase tracking-widest rounded-lg transition-all duration-200 hover:brightness-90 active:scale-95 shadow-xl shadow-ds-accent/5;
-  }
+    .btn-premium {
+        @apply px-5 py-2.5 bg-ds-btn-premium-bg text-ds-btn-premium-text font-black text-[10px] uppercase tracking-widest rounded-lg transition-all duration-200 hover:brightness-90 active:scale-95 shadow-xl shadow-ds-accent/5;
+    }
 
-  .btn-subtle {
-    @apply px-5 py-2.5 bg-ds-btn-subtle-bg border border-ds-border text-ds-text font-black text-[10px] uppercase tracking-widest rounded-lg transition-all duration-200 hover:bg-ds-accent/10 active:scale-95;
-  }
+    .btn-subtle {
+        @apply px-5 py-2.5 bg-ds-btn-subtle-bg border border-ds-border text-ds-text font-black text-[10px] uppercase tracking-widest rounded-lg transition-all duration-200 hover:bg-ds-accent/10 active:scale-95;
+    }
 
-  .dot-grid {
-    background-image: radial-gradient(var(--ds-dot-grid-color) 1px, transparent 1px);
-    background-size: 24px 24px;
-    background-attachment: fixed;
-  }
+    .dot-grid {
+        background-image: radial-gradient(var(--ds-dot-grid-color) 1px, transparent 1px);
+        background-size: 24px 24px;
+        background-attachment: fixed;
+    }
 
-  .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.02;
-    mask-image: linear-gradient(to bottom, black, transparent);
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-  }
+    .noise-overlay {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.02;
+        mask-image: linear-gradient(to bottom, black, transparent);
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+    }
 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
 ::selection {
-  background: var(--ds-accent);
-  color: var(--ds-bg);
+    background: var(--ds-accent);
+    color: var(--ds-bg);
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--ds-scrollbar-bg);
+    background: var(--ds-scrollbar-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--ds-scrollbar-thumb);
-  border-radius: 9999px;
+    background: var(--ds-scrollbar-thumb);
+    border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--ds-accent);
-  opacity: 0.2;
+    background: var(--ds-accent);
+    opacity: 0.2;
 }
 
 @keyframes premium-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .animate-premium-fade-in {
-  animation: premium-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: premium-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Custom Shadcn overrides for Industrial look */
 :root {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 98%;
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 0 0% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 0 0% 9%;
-  --secondary: 0 0% 14.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 0 0% 14.9%;
-  --muted-foreground: 0 0% 63.9%;
-  --accent: 0 0% 14.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 14.9%;
-  --input: 0 0% 14.9%;
-  --ring: 0 0% 83.1%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
 }

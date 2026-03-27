@@ -1,27 +1,20 @@
-import { forwardRef, useImperativeHandle } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const CopyIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = async () => {
             await animate(
-                ".front-copy",
+                '.front-copy',
                 { x: [0, 2, 0], y: [0, 2, 0] },
-                { duration: 0.3, ease: "easeInOut" },
+                { duration: 0.3, ease: 'easeInOut' }
             );
         };
 
         const stop = () => {
-            animate(
-                ".front-copy",
-                { x: 0, y: 0 },
-                { duration: 0.2, ease: "easeOut" },
-            );
+            animate('.front-copy', { x: 0, y: 0 }, { duration: 0.2, ease: 'easeOut' });
         };
 
         useImperativeHandle(ref, () => {
@@ -55,9 +48,9 @@ const CopyIcon = forwardRef(
                 />
             </motion.svg>
         );
-    },
+    }
 );
 
-CopyIcon.displayName = "CopyIcon";
+CopyIcon.displayName = 'CopyIcon';
 
 export default CopyIcon;

@@ -20,20 +20,26 @@ export default function ScoreCard({ score, tier }) {
             <div className="relative w-28 h-28 flex items-center justify-center shrink-0 my-6">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                     <circle
-                        cx="50" cy="50" r={radius}
+                        cx="50"
+                        cy="50"
+                        r={radius}
                         fill="none"
                         stroke="var(--ds-border)"
                         strokeWidth="3"
                     />
                     <circle
-                        cx="50" cy="50" r={radius}
+                        cx="50"
+                        cy="50"
+                        r={radius}
                         fill="none"
                         stroke="var(--ds-accent)"
                         strokeWidth="4"
                         strokeLinecap="square"
                         strokeDashoffset={circumference - (progress || 0)}
                         strokeDasharray={circumference}
-                        style={{ transition: 'stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                        style={{
+                            transition: 'stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                        }}
                     />
                 </svg>
 
@@ -48,7 +54,9 @@ export default function ScoreCard({ score, tier }) {
             </div>
 
             <div className="flex flex-col items-center gap-1.5 w-full pt-6 border-t border-ds-border">
-                <div className="text-[8px] font-black text-ds-muted uppercase tracking-[0.3em] opacity-40">Status Check</div>
+                <div className="text-[8px] font-black text-ds-muted uppercase tracking-[0.3em] opacity-40">
+                    Status Check
+                </div>
                 <div className="text-[10px] font-black text-ds-text uppercase tracking-[0.2em]">
                     {tier}
                 </div>

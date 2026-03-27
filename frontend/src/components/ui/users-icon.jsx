@@ -1,64 +1,61 @@
-import { forwardRef, useImperativeHandle, useCallback } from "react";
-import { motion, useAnimate } from "motion/react";
+import { forwardRef, useImperativeHandle, useCallback } from 'react';
+import { motion, useAnimate } from 'motion/react';
 
 const UsersIcon = forwardRef(
-    (
-        { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
-        ref,
-    ) => {
+    ({ size = 24, color = 'currentColor', strokeWidth = 2, className = '' }, ref) => {
         const [scope, animate] = useAnimate();
 
         const start = useCallback(async () => {
             // Primary user bounces up slightly
             animate(
-                ".user-primary",
+                '.user-primary',
                 {
                     y: -2,
                     scale: 1.05,
                 },
                 {
                     duration: 0.3,
-                    ease: "easeOut",
-                },
+                    ease: 'easeOut',
+                }
             );
 
             // Secondary user (right side) moves slightly
             animate(
-                ".user-secondary",
+                '.user-secondary',
                 {
                     x: 1,
                     opacity: 0.8,
                 },
                 {
                     duration: 0.3,
-                    ease: "easeOut",
-                },
+                    ease: 'easeOut',
+                }
             );
         }, [animate]);
 
         const stop = useCallback(async () => {
             animate(
-                ".user-primary",
+                '.user-primary',
                 {
                     y: 0,
                     scale: 1,
                 },
                 {
                     duration: 0.25,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
 
             animate(
-                ".user-secondary",
+                '.user-secondary',
                 {
                     x: 0,
                     opacity: 1,
                 },
                 {
                     duration: 0.25,
-                    ease: "easeInOut",
-                },
+                    ease: 'easeInOut',
+                }
             );
         }, [animate]);
 
@@ -98,8 +95,8 @@ const UsersIcon = forwardRef(
                 </motion.g>
             </motion.svg>
         );
-    },
+    }
 );
 
-UsersIcon.displayName = "UsersIcon";
+UsersIcon.displayName = 'UsersIcon';
 export default UsersIcon;
