@@ -29,8 +29,8 @@ def generate_badge_svg(score, tier):
     score_width = 85
     total_width = label_width + score_width
 
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="28" viewBox="0 0 {total_width} 28" fill="none" role="img" aria-label="GitProof: {score_text} · {tier_label}">
-  <title>GitProof: {score_text} · {tier_label}</title>
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{total_width}" height="28" viewBox="0 0 {total_width} 28" fill="none" role="img" aria-label="DevScore: {score_text} · {tier_label}">
+  <title>DevScore: {score_text} · {tier_label}</title>
   <style>
     .label {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; fill: #A1A1AA; }}
     .value {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 700; fill: #FFFFFF; }}
@@ -39,7 +39,7 @@ def generate_badge_svg(score, tier):
   <rect x="{label_width}" width="{score_width}" height="28" fill="#27272A" />
   <rect width="{total_width}" height="28" rx="4" stroke="#3F3F46" />
   <line x1="{label_width}" y1="0" x2="{label_width}" y2="28" stroke="#3F3F46" />
-  <text x="{label_width / 2}" y="18" text-anchor="middle" class="label">GitProof</text>
+  <text x="{label_width / 2}" y="18" text-anchor="middle" class="label">DevScore</text>
   <text x="{label_width + score_width / 2}" y="19" text-anchor="middle" class="value">{score_text} • {tier_label}</text>
 </svg>"""
     return svg
