@@ -3,13 +3,15 @@ import CopyIcon from './ui/copy-icon';
 
 export default function BadgePreview({ username, score = 0, tier = 'Baseline' }) {
     const [copied, setCopied] = useState('');
-    const badgeUrl = `${window.location.origin}/badge/${username}.svg`;
-    const profileUrl = `${window.location.origin}`;
+    const apiBase = import.meta.env.VITE_API_BASE || window.location.origin;
+    const badgeUrl = `${apiBase}/badge/${username}.svg`;
+    const profileUrl = window.location.origin;
 
-    const markdownCode = `[![GitProof](${badgeUrl})](${profileUrl})`;
-    const htmlCode = `<a href="${profileUrl}"><img src="${badgeUrl}" alt="GitProof" /></a>`;
+    const brandName = "DevScore";
+    const markdownCode = `[![${brandName}](${badgeUrl})](${profileUrl})`;
+    const htmlCode = `<a href="${profileUrl}"><img src="${badgeUrl}" alt="${brandName}" /></a>`;
 
-    const handleCopy = (text, type) => {
+    const handleCopy = (text, type) => {    
         navigator.clipboard.writeText(text);
         setCopied(type);
         setTimeout(() => setCopied(''), 2000);
@@ -33,10 +35,10 @@ export default function BadgePreview({ username, score = 0, tier = 'Baseline' })
                     viewBox={`0 0 ${total_width} 28`}
                     fill="none"
                     role="img"
-                    aria-label={`GitProof: ${score_text} · ${tier}`}
+                    aria-label={`DevScore: ${score_text} · ${tier}`}
                     className="relative transition-transform duration-500 hover:scale-110 z-10"
                 >
-                    <title>{`GitProof: ${score_text} · ${tier}`}</title>
+                    <title>{`DevScore: ${score_text} · ${tier}`}</title>
                     <rect width={total_width} height="28" rx="4" fill="#09090B" />
                     <rect x={label_width} width={score_width} height="28" fill="#27272A" />
                     <rect width={total_width} height="28" rx="4" stroke="#3F3F46" />
@@ -55,7 +57,7 @@ export default function BadgePreview({ username, score = 0, tier = 'Baseline' })
                             fill: '#A1A1AA',
                         }}
                     >
-                        GitProof
+                        DevScore
                     </text>
                     <text
                         x={label_width + score_width / 2}
