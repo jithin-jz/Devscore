@@ -1,4 +1,4 @@
-# DEVSCORE
+# DevScore
 
 ![DevScore Banner](./frontend/public/devscore.png)
 
